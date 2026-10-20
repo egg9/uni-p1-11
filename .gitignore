@@ -1,0 +1,6 @@
+# Ignore VS Code stuff
+*.vscode
+*.code-workspace
+
+# Ignore all builds
+main.exe
