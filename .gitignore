@@ -2,5 +2,8 @@
 *.vscode
 *.code-workspace
 
+# Ignore mac stuff
+*.idea
+
 # Ignore all builds
 main.exe
