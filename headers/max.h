@@ -10,8 +10,8 @@ struct stats
     int dead;
 };
 
-bool update_stats(const struct stats *ptr);
-void zero_stat(const struct stats *ptr);
+bool update_stats(const struct stats ptr);
+void zero_stat(const struct stats ptr);
 const struct stats *read_stats();
 void reset_stats();
 // END
