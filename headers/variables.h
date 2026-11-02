@@ -19,8 +19,8 @@ struct stats
     
 };
 
-bool update_stats(const struct stats ptr);
-void zero_stat(const struct stats ptr);
-const struct stats *read_stats();
-void reset_stats();
+bool update_stats(const struct stats st);
+void zero_stat(const struct stats st);
+const struct stats * const read_stats();
+struct stats reset_stats();
 // END

@@ -1,27 +1,33 @@
 #include "../headers/variables.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 // Struct for runtime variables fx. People: 10'000, Infected: 3'000
-struct stats stats = {};
+struct stats * stats = NULL;
 
-bool update_stats(const struct stats ptr)
+//st is a struct send as argument to what update in the current versions of stats
+bool update_stats(const struct stats st)
+{
+    if (st.susceptible != 0)
+        stats->susceptible = st.susceptible;
+}
+
+void zero_stat(const struct stats st)
 {
 
-    if (ptr.susceptible != 0)
-        stats.susceptible = ptr.susceptible;
+    if (st.susceptible == 1)
+        stats->susceptible = 0;
 }
-void zero_stat(const struct stats ptr)
-{
 
-    if (ptr.susceptible == 1)
-        stats.susceptible = 0;
-}
-const struct stats *read_stats()
+//DO NOT FREE!!!
+const struct stats * const read_stats()
 {
-    return &stats;
+    return stats;
 }
-void reset_stats()
+
+//st is the input 
+struct stats reset_stats()
 {
-    stats = (struct stats){};
+    stats = calloc(1, sizeof(struct stats) );
 }
-// END
