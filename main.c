@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 #include "headers/colors.h"
+#include "headers/variables.h"
 
 #include "headers/hassan.h"
 #include "headers/mads.h"
