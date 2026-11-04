@@ -22,6 +22,6 @@ typedef struct
 bool update_stats(const stats_t st); //Use this to update value in the stats_t struct for validation
 void zero_stat(const stats_t st);    //Use this if you want to zero a value in the struct
 const stats_t *const read_stats();
-stats_t *reset_stats();
+bool initialize_stats();
 
 #endif

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 // Struct for runtime variables fx. People: 10'000, Infected: 3'000
-static stats_t *stats = {};
+static stats_t *stats = NULL;
 
 // st is a struct send as argument to what update in the current versions of stats
 bool update_stats(const stats_t st)
@@ -67,7 +67,12 @@ const stats_t *const read_stats()
     return stats;
 }
 
-stats_t *reset_stats()
+bool initialize_stats()
 {
     stats = calloc(1, sizeof(stats_t));
+    if (!stats)
+        return false;
+
+    //*stats = {};
+    return true;
 }
