@@ -1,6 +1,7 @@
-#include "sebastian.h"
+#include "../headers/sebastian.h"
 
-stats_t InputFirstDay() { // Løsning med returtype struct, overvej void hvis stats_t kan være global og static
+stats_t InputFirstDay()
+{ // Løsning med returtype struct, overvej void hvis stats_t kan være global og static
     // Tekst der introducerer programmet (evt. bare have det i main)
     printf("Input values for the following variables in the corresponding order:\n");
     printf(" Susceptible (int)\n"
@@ -13,27 +14,31 @@ stats_t InputFirstDay() { // Løsning med returtype struct, overvej void hvis st
     stats_t day_one_stats = {};
 
     // Input nye værdier på felterne
-    scanf("%d, %lf, %lf, %lf, %d",
-        &day_one_stats.susceptible,
-        &day_one_stats.recovery_rate,
-        &day_one_stats.transmission_rate,
-        &day_one_stats.immunity_wane,
-        &day_one_stats.duration);
+    scanf(" %d", &day_one_stats.susceptible);
+    scanf(" %lf", &day_one_stats.recovery_rate);
+    scanf(" %lf", &day_one_stats.transmission_rate);
+    scanf(" %lf", &day_one_stats.immunity_wane);
+    scanf(" %d", &day_one_stats.duration);
 
     return day_one_stats; // Returnér den nye struct
 }
 
-void CalcNextDay(stats_t st) {
+void CalcNextDay(stats_t st)
+{
     // Udregner stats for næste dag
     // Indtil nu er matematikken ikke korrekt – funktionen skal bare kunne tilgå de rigtige variabler uden problemer
 
-    if (st.susceptible < 20) {
+    if (st.susceptible < 20)
+    {
         st.susceptible *= 2;
-    } else {
+    }
+    else
+    {
         st.susceptible /= 2;
     }
 
-    if (update_stats(st) == false) { // Gør to ting: opdaterer stats og tjekker for uventede værdier
+    if (update_stats(st) == false)
+    { // Gør to ting: opdaterer stats og tjekker for uventede værdier
         printf("ERROR: Unexpected field values!\n");
     }
 }
