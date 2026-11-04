@@ -21,6 +21,7 @@ bool check_stats(const stats_t st)
     if (st.R_0 < 0)                 return false;
     if (st.total_days < 0)          return false;
     // clang-format on
+    return true;
 }
 
 bool create_stats(const stats_t st)
