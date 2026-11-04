@@ -1,0 +1,1 @@
+struct stats_t InputFirstDay();
