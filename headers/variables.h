@@ -1,7 +1,7 @@
 #include <stdbool.h>
 
 // Struct for runtime variables fx. People: 10'000, Infected: 3'000
-struct stats_t
+typedef struct
 {
     int susceptible; // totals
     int infectious;  // totals
@@ -15,10 +15,10 @@ struct stats_t
     double R_t;           // effetive repreductive number    =recovery_rate
     const double R_0;     // const
     const int total_days; // const
-};
+} stats_t;
 
-bool update_stats(const struct stats_t st);
-void zero_stat(const struct stats_t st);
-const struct stats_t *const read_stats();
-struct stats_t reset_stats();
+bool update_stats(const stats_t st); //Use this to update value in the stats_t struct for validation
+void zero_stat(const stats_t st);    //Use this if you want to zero a value in the struct
+const stats_t *const read_stats();
+stats_t *reset_stats();
 // END
