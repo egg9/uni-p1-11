@@ -4,10 +4,10 @@
 #include <stdbool.h>
 
 // Struct for runtime variables fx. People: 10'000, Infected: 3'000
-struct stats * stats = NULL;
+static struct stats_t * stats = NULL;
 
 //st is a struct send as argument to what update in the current versions of stats
-bool update_stats(const struct stats st)
+bool update_stats(const struct stats_t st)
 {
     if (st.susceptible != 0)
         stats->susceptible = st.susceptible;
@@ -34,7 +34,7 @@ bool update_stats(const struct stats st)
         stats->R_t = st.R_t;
 }
 
-void zero_stat(const struct stats st)
+void zero_stat(const struct stats_t st)
 {
     if (st.susceptible == 1)
         stats->susceptible = 0;
@@ -62,13 +62,13 @@ void zero_stat(const struct stats st)
 }
 
 //DO NOT FREE!!!
-const struct stats * const read_stats()
+const struct stats_t * const read_stats()
 {
     return stats;
 }
 
 //st is the input 
-struct stats reset_stats()
+struct stats_t reset_stats()
 {
-    stats = calloc(1, sizeof(struct stats) );
+    stats = calloc(1, sizeof(struct stats_t) );
 }
