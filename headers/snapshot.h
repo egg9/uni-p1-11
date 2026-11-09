@@ -4,12 +4,14 @@
 #include <stdbool.h>
 #include <string.h>
 
-struct Snapshot
+struct snapshot_t
 {
     stats_t stats;
-    struct Snapshot *next;
+    struct snapshot_t *prev;
 };
 
-bool create_snapshot();
-bool add_snapshot(stats_t st);
+bool initialize_snapshot();
+bool create_snapshot(stats_t st);
 bool generate_csv(char *path, char *filename);
+void print_graph(int size);
+void free_snapshots();
