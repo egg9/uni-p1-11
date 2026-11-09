@@ -17,7 +17,6 @@ bool check_stats(const stats_t st)
     if (st.immunity_wane < 0)       return false;
     if (st.duration < 0)            return false;
     if (st.R_t < 0)                 return false;
-    if (st.total_days < 0)          return false;
     // clang-format on
     return true;
 }

@@ -15,7 +15,6 @@ typedef struct
     //
     int duration;         // const how many days a person is sick
     double R_t;           // effetive repreductive number    =recovery_rate
-    const int total_days; // const
 } stats_t;
 
 bool create_stats(const stats_t st); // Use to set all the variables of stats (including const) //primary use is for overriding or creation
