@@ -3,6 +3,7 @@
 // This linked list will point backwards, so the lastest (tail) can be shown first and go towards the oldest (head)
 static struct snapshot_t *snapshot_head = NULL;
 static struct snapshot_t *snapshot_tail = NULL;
+static int lenght = 0;
 
 bool initialize_snapshot()
 {
@@ -39,10 +40,40 @@ bool create_snapshot(stats_t st)
 
     memcpy(snapshot_tail, &st, sizeof(stats_t));
     snapshot_tail->prev = temp_ptr;
+
+    lenght++;
+    return true;
 }
 
-bool generate_csv(char *path, char *filename) {
-    
+bool generate_csv(char *path)
+{
+    FILE *fptr;
+    fptr = fopen(path, "w");
+    if (!fptr)
+    {
+        return false;
+    }
+
+    struct snapshot_t *temp_ptr = snapshot_tail;
+    fprintf(fptr, "susceptible, infectious, recovered, recovery_rate, transmission_rate, immunity_wane, duration, R_t\n");
+
+    for (int i = 0; temp_ptr->prev != 0; ++i)
+    {
+        temp_ptr = snapshot_tail->prev;
+
+        fprintf(fptr, "%d %d %d %lf %lf %lf %d %lf",
+                temp_ptr->stats.susceptible,
+                temp_ptr->stats.infectious, // totals
+                temp_ptr->stats.recovered,  // totals
+                                           //
+                temp_ptr->stats.recovery_rate,     // =1/duration \gamma
+                temp_ptr->stats.transmission_rate, // \beta
+                temp_ptr->stats.immunity_wane,     // how long does immunity last \xi
+                                               //
+                temp_ptr->stats.duration, // const how many days a person is sick
+                temp_ptr->stats.R_t);
+    }
+    fclose(fptr);
 }
 
 void print_graph(int size);
