@@ -19,6 +19,14 @@ stats_t InputFirstDay()
     printf("\nInput the value for the duration of the disease in whole days: \n");
     scanf(" %d", &day_one_stats.duration);
 
+    printf("\nInput the amount of starting infectious: \n");
+    scanf(" %d", &day_one_stats.infectious);
+
+    if (&day_one_stats.infectious < 0) {
+        printf("infectious cant be less then 0, infectious set to 1");
+        day_one_stats.infectious = 1;
+    }
+
     printf("\nThe basic reproduction number is: %lf\n",
         day_one_stats.transmission_rate/(1.0/day_one_stats.duration));
 

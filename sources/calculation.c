@@ -63,11 +63,12 @@ void CalcNextDay(stats_t st)
 
     /* Integrer én dag frem */
     for (int step = 0; step < STEPS_PER_DAY; step++) {
-        RungeKutta(st, h);
+        st = RungeKutta(st, h);
     }
 
     st.R_t = (st.transmission_rate / (1.0/st.duration)) * (st.susceptible / N); /*Update effective
                                                                               reproductive number*/
+    printf("infectious: %d\n", read_stats()->infectious);
 
     if (update_stats(st) == false)
     { // Gør to ting: opdaterer stats og tjekker for uventede værdier
