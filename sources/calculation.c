@@ -66,7 +66,7 @@ void CalcNextDay(stats_t st)
         RungeKutta(st, h);
     }
 
-    st.R_t = (st.transmission_rate / (1/st.duration)) * (st.susceptible / N); /*Update effective
+    st.R_t = (st.transmission_rate / (1.0/st.duration)) * (st.susceptible / N); /*Update effective
                                                                               reproductive number*/
 
     if (update_stats(st) == false)
