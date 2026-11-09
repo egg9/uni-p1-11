@@ -7,6 +7,8 @@
 // Struct for runtime variables fx. People: 10'000, Infected: 3'000
 static stats_t *stats = NULL;
 
+#include <stdio.h>
+
 bool check_stats(const stats_t st)
 {
     // clang-format off
@@ -42,6 +44,8 @@ bool create_stats(const stats_t st)
     return true;
 }
 // st is a struct send as argument to what update in the current versions of stats
+#include <stdio.h>
+
 bool update_stats(const stats_t st)
 {
     if (!check_stats(st))

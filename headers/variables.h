@@ -5,9 +5,9 @@
 // Struct for runtime variables fx. People: 10'000, Infected: 3'000
 typedef struct
 {
-    int susceptible; // totals
-    int infectious;  // totals
-    int recovered;   // totals
+    double susceptible; // totals
+    double infectious;  // totals
+    double recovered;   // totals
     //
     double recovery_rate;     // =1/duration \gamma
     double transmission_rate; // \beta
