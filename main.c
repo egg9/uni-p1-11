@@ -24,16 +24,7 @@ int main(void)
         if (steps < 1)
         {
             break;
-
-            rwtwq
-
-
-
-            dksjfhgjadf
-
-
-            sdfjsndfk
-          }
+        }
 
         for (int step = 0; step < steps; step++)
         {
