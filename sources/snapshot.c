@@ -41,7 +41,10 @@ bool create_snapshot(stats_t st)
     snapshot_tail->prev = temp_ptr;
 }
 
-bool generate_csv(char *path, char *filename);
+bool generate_csv(char *path, char *filename) {
+    
+}
+
 void print_graph(int size);
 
 void free_snapshots()
