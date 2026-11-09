@@ -24,6 +24,8 @@ int main(void)
         if (steps < 1)
         {
             break;
+
+            rwtwq
           }
 
         for (int step = 0; step < steps; step++)
