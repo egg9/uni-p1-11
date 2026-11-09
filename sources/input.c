@@ -5,7 +5,6 @@ stats_t InputFirstDay()
     // Tekst der introducerer programmet (evt. bare have det i main)
     printf("Input values for the following variables in the corresponding order:\n");
     printf(" Susceptible (int)\n"
-           " Recovery rate (double)\n"
            " Transmission rate (double)\n"
            " Immunity wane (double)\n"
            " Duration (int)\n");
@@ -15,7 +14,6 @@ stats_t InputFirstDay()
 
     // Input nye værdier på felterne
     scanf(" %d", &day_one_stats.susceptible);
-    scanf(" %lf", &day_one_stats.recovery_rate);
     scanf(" %lf", &day_one_stats.transmission_rate);
     scanf(" %lf", &day_one_stats.immunity_wane);
     scanf(" %d", &day_one_stats.duration);

@@ -4,17 +4,16 @@
 
 void CalcNextDay(stats_t st)
 {
+    int N = (st.susceptible + st.infectious + st.recovered);
     // Udregner stats for næste dag
     // Indtil nu er matematikken ikke korrekt – funktionen skal bare kunne tilgå de rigtige variabler uden problemer
 
-    if (st.susceptible < 20)
-    {
-        st.susceptible *= 2;
-    }
-    else
-    {
-        st.susceptible /= 2;
-    }
+    st.susceptible = st.susceptible - (st.transmission_rate * st.susceptible
+        * st.infectious)/N + st.immunity_wane * st.recovered;
+    st.infectious = st.infectious + (st.transmission_rate * st.susceptible
+        * st.infectious)/N - (1/st.duration) * st.infectious;
+    st.recovered = st.recovered + ((1/st.duration) * st.infectious) -
+        (st.immunity_wane * st.recovered);
 
     if (update_stats(st) == false)
     { // Gør to ting: opdaterer stats og tjekker for uventede værdier
