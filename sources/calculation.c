@@ -3,17 +3,17 @@
 stats_t f(stats_t st) {
     double total_population = st.susceptible + st.infectious + st.recovered;
     double gamma = 1.0 / st.duration;
+    double omega = 1.0 / st.immunity_wane;
 
-    double new_infections = st.transmission_rate * st.susceptible * st.infectious / total_population;
+    double new_infections = (st.transmission_rate * st.susceptible * st.infectious) / total_population;
     double new_recoveries = gamma * st.infectious;
-    double lost_immunity  = st.immunity_wane * st.recovered;
+    double lost_immunity  = omega * st.recovered;
 
     st.susceptible = -new_infections + lost_immunity;
     st.infectious  =  new_infections - new_recoveries;
     st.recovered   =  new_recoveries - lost_immunity;
 
     return st;
-
 }
 
 stats_t RungeKutta(stats_t st, double h) {
@@ -53,7 +53,7 @@ stats_t RungeKutta(stats_t st, double h) {
 
 void CalcNextDay(stats_t st)
 {
-    int N = (st.susceptible + st.infectious + st.recovered);
+    double N = (st.susceptible + st.infectious + st.recovered);
     // Udregner stats for næste dag
     // Indtil nu er matematikken ikke korrekt – funktionen skal bare kunne tilgå de rigtige variabler uden problemer
 
@@ -68,10 +68,11 @@ void CalcNextDay(stats_t st)
 
     st.R_t = (st.transmission_rate / (1.0/st.duration)) * (st.susceptible / N); /*Update effective
                                                                               reproductive number*/
-    printf("infectious: %d\n", read_stats()->infectious);
+    printf("infectious: %lf\n", read_stats()->infectious);
 
     if (update_stats(st) == false)
     { // Gør to ting: opdaterer stats og tjekker for uventede værdier
         printf("ERROR: Unexpected field values!\n");
     }
+
 }

@@ -12,7 +12,7 @@ int main(void)
 {
     printf(RED "Hello World!" reset);
     create_stats(InputFirstDay());                          // Initial stats are inputted, and the result is fed into stats_t stats to be saved
-    printf("Susceptible: %d\n", read_stats()->susceptible); // Test case that successfully reads the saved value
+    printf("Susceptible: %lf\n", read_stats()->susceptible); // Test case that successfully reads the saved value
 
     // Run each day iteratively. Perhaps call the stepfunction here, so the user can input how many days to skip ahead
     while (true)

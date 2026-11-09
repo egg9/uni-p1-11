@@ -63,7 +63,7 @@ bool generate_csv(char *path)
     {
         temp_ptr = temp_ptr->prev;
 
-        fprintf(fptr, "%d, %d, %d, %d, %lf, %lf, %lf, %d, %lf\n", i,
+        fprintf(fptr, "%lf %lf %lf %lf %lf %lf %d %lf",
                 temp_ptr->stats.susceptible,
                 temp_ptr->stats.infectious,        // totals
                 temp_ptr->stats.recovered,         // totals
