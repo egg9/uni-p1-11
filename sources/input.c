@@ -3,22 +3,24 @@
 stats_t InputFirstDay()
 { // Løsning med returtype struct, overvej void hvis stats_t kan være global og static
     // Tekst der introducerer programmet (evt. bare have det i main)
-    printf("Input values for the following variables in the corresponding order:\n");
-    printf(" Susceptible (int)\n"
-           " Transmission rate (double)\n"
-           " Immunity wane (double)\n"
-           " Duration (int)\n");
-
     // Lav en ny tom struct
-    stats_t day_one_stats = (stats_t){.R_0 = };
+    stats_t day_one_stats = (stats_t){};
 
     // Input nye værdier på felterne
+    printf("Input the value for the size of the susceptible group: \n");
     scanf(" %d", &day_one_stats.susceptible);
+
+    printf("\nInput the value of the transmission rate as a decimal number: \n");
     scanf(" %lf", &day_one_stats.transmission_rate);
+
+    printf("\nInput the value for the immunity waning time as a whole number \n");
     scanf(" %lf", &day_one_stats.immunity_wane);
+
+    printf("\nInput the value for the duration of the disease in whole days: \n");
     scanf(" %d", &day_one_stats.duration);
-    printf("The basic reproduction number is: %lf",
-        day_one_stats.transmission_rate/day_one_stats.recovery_rate);
+
+    printf("\nThe basic reproduction number is: %lf\n",
+        day_one_stats.transmission_rate/(1.0/day_one_stats.duration));
 
     return day_one_stats; // Returnér den nye struct
 }
