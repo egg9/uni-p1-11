@@ -14,7 +14,7 @@ struct snapshot_t
 };
 
 bool initialize_snapshot();
-bool create_snapshot(stats_t st);
+bool create_snapshot(const stats_t *st);
 bool generate_csv(char *path);
 void print_graph(int size);
 void free_snapshots();

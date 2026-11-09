@@ -26,7 +26,7 @@ bool initialize_snapshot()
     return true;
 }
 
-bool create_snapshot(stats_t st)
+bool create_snapshot(const stats_t *st)
 {
     struct snapshot_t *temp_ptr = snapshot_tail;
 
@@ -55,28 +55,38 @@ bool generate_csv(char *path)
     }
 
     struct snapshot_t *temp_ptr = snapshot_tail;
-    fprintf(fptr, "susceptible, infectious, recovered, recovery_rate, transmission_rate, immunity_wane, duration, R_t\n");
+    fprintf(fptr, "day, susceptible, infectious, recovered, recovery_rate, transmission_rate, immunity_wane, duration, R_t\n");
 
-    for (int i = 0; temp_ptr->prev != 0; ++i)
+    for (int i = lenght;
+         temp_ptr->prev != 0;
+         --i)
     {
-        temp_ptr = snapshot_tail->prev;
+        temp_ptr = temp_ptr->prev;
 
-        fprintf(fptr, "%d %d %d %lf %lf %lf %d %lf",
+        fprintf(fptr, "%d, %d, %d, %d, %lf, %lf, %lf, %d, %lf\n", i,
                 temp_ptr->stats.susceptible,
-                temp_ptr->stats.infectious, // totals
-                temp_ptr->stats.recovered,  // totals
-                                           //
+                temp_ptr->stats.infectious,        // totals
+                temp_ptr->stats.recovered,         // totals
+                                                   //
                 temp_ptr->stats.recovery_rate,     // =1/duration \gamma
                 temp_ptr->stats.transmission_rate, // \beta
                 temp_ptr->stats.immunity_wane,     // how long does immunity last \xi
-                                               //
-                temp_ptr->stats.duration, // const how many days a person is sick
+                                                   //
+                temp_ptr->stats.duration,          // const how many days a person is sick
                 temp_ptr->stats.R_t);
     }
     fclose(fptr);
 }
 
-void print_graph(int size);
+void print_graph(int size) {
+    int steps = 0;// how many data points should be skipped to view the whole timeline or speciefied number
+
+    if (size < 0) {
+        steps = lenght / ;
+    } else {
+        steps = 
+    }
+}
 
 void free_snapshots()
 {

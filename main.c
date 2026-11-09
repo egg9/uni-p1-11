@@ -11,6 +11,7 @@
 int main(void)
 {
     printf(RED "Hello World!" reset);
+    initialize_snapshot();
     create_stats(InputFirstDay());                          // Initial stats are inputted, and the result is fed into stats_t stats to be saved
     printf("Susceptible: %d\n", read_stats()->susceptible); // Test case that successfully reads the saved value
 
@@ -29,8 +30,9 @@ int main(void)
         for (int step = 0; step < steps; step++)
         {
             CalcNextDay(*read_stats());
-            // Snapshot function called here – save
+            create_snapshot(read_stats());
         }
     }
+    generate_csv("project.csv");
     return 0;
 }
