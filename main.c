@@ -26,6 +26,13 @@ int main(void)
             break;
 
             rwtwq
+
+
+
+            dksjfhgjadf
+
+
+            sdfjsndfk
           }
 
         for (int step = 0; step < steps; step++)
