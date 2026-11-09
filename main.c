@@ -4,12 +4,9 @@
 #include "headers/colors.h"
 #include "headers/variables.h"
 
-#include "headers/hassan.h"
-#include "headers/mads.h"
-#include "headers/magnus.h"
-#include "headers/max.h"
-#include "headers/sebastian.h"
-#include "headers/tobias.h"
+#include "headers/calculations.h"
+#include "headers/input.h"
+#include "headers/snapshot.h"
 
 int main(void)
 {
