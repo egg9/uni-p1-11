@@ -10,13 +10,15 @@ stats_t InputFirstDay()
            " Duration (int)\n");
 
     // Lav en ny tom struct
-    stats_t day_one_stats = {};
+    stats_t day_one_stats = (stats_t){.R_0 = };
 
     // Input nye værdier på felterne
     scanf(" %d", &day_one_stats.susceptible);
     scanf(" %lf", &day_one_stats.transmission_rate);
     scanf(" %lf", &day_one_stats.immunity_wane);
     scanf(" %d", &day_one_stats.duration);
+    printf("The basic reproduction number is: %lf",
+        day_one_stats.transmission_rate/day_one_stats.recovery_rate);
 
     return day_one_stats; // Returnér den nye struct
 }

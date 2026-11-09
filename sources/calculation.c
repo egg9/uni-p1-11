@@ -17,6 +17,9 @@ void CalcNextDay(stats_t st)
     st.recovered = st.recovered + ((1/st.duration) * st.infectious) - //Update recovered
         (st.immunity_wane * st.recovered);
 
+    st.R_t = (st.transmission_rate / (1/st.duration)) * (st.susceptible / N); /*Update effective
+                                                                              reproductive number*/
+
     if (update_stats(st) == false)
     { // Gør to ting: opdaterer stats og tjekker for uventede værdier
         printf("ERROR: Unexpected field values!\n");
