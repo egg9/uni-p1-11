@@ -68,7 +68,9 @@ void CalcNextDay(stats_t st)
 
     st.R_t = (st.transmission_rate / (1.0/st.duration)) * (st.susceptible / N); /*Update effective
                                                                               reproductive number*/
-    printf("infectious: %lf\n", read_stats()->infectious);
+    printf("Susceptible: %lf   ", read_stats()->susceptible);
+    printf("Infectious: %lf   ", read_stats()->infectious);
+    printf("Recovered: %lf\n", read_stats()->recovered);
 
     if (update_stats(st) == false)
     { // Gør to ting: opdaterer stats og tjekker for uventede værdier
