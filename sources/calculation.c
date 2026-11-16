@@ -5,12 +5,16 @@ stats_t f(stats_t st)
 {
     double total_population = st.susceptible + st.infectious + st.recovered;
 
+    double gamma = 1.0 / st.duration;
+    double omega = 1.0 / st.immunity_wane;
+
     double new_infections = (st.transmission_rate * st.susceptible * st.infectious) / total_population;
-    double new_recoveries = st.duration * st.infectious;
-    double lost_immunity = st.immunity_wane * st.recovered;
+    double new_recoveries = gamma * st.infectious;
+    double lost_immunity = omega * st.recovered;
 
     st.susceptible = -new_infections + lost_immunity;
     st.infectious = new_infections - new_recoveries;
+
     st.recovered = new_recoveries - lost_immunity;
 
     return st;
