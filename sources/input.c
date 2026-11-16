@@ -32,3 +32,4 @@ stats_t InputFirstDay()
 
     return day_one_stats; // Returnér den nye struct
 }
+

@@ -7,3 +7,6 @@
 
 # Ignore all builds
 main.exe
+
+#Ignore everything in simulation (files are too large)
+simulations/*
