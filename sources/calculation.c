@@ -1,4 +1,5 @@
 #include "../headers/calculations.h"
+#include <math.h>
 
 stats_t f(stats_t st) {
     double total_population = st.susceptible + st.infectious + st.recovered;
@@ -44,9 +45,9 @@ stats_t RungeKutta(stats_t st, double h) {
     stats_t k4 = f(temp);
 
     /* Selve skridtet: vægtet gennemsnit af de fire hældninger */
-    st.susceptible += h / 6.0 * (k1.susceptible + 2 * k2.susceptible + 2 * k3.susceptible + k4.susceptible);
-    st.infectious  += h / 6.0 * (k1.infectious  + 2 * k2.infectious  + 2 * k3.infectious  + k4.infectious);
-    st.recovered   += h / 6.0 * (k1.recovered   + 2 * k2.recovered   + 2 * k3.recovered   + k4.recovered);
+    st.susceptible += round(h / 6.0 * (k1.susceptible + 2 * k2.susceptible + 2 * k3.susceptible + k4.susceptible));
+    st.infectious  += round(h / 6.0 * (k1.infectious  + 2 * k2.infectious  + 2 * k3.infectious  + k4.infectious));
+    st.recovered   += round(h / 6.0 * (k1.recovered   + 2 * k2.recovered   + 2 * k3.recovered   + k4.recovered));
 
     return st;
 }
