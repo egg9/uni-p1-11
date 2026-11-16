@@ -1,5 +1,6 @@
 #include "../headers/snapshot.h"
 
+//
 // This linked list will point backwards, so the lastest (tail) can be shown first and go towards the oldest (head)
 static stats_t *snapshots = NULL;
 static int lenght = 0;

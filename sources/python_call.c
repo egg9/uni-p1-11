@@ -25,7 +25,8 @@ void open_graph()
 
 void append_day_graph(stats_t st)
 {
-    int total_population = st.susceptible + st.infectious + st.recovered;
+    double total_population = st.susceptible + st.infectious + st.recovered;
+    printf("%lf", total_population);
     fprintf(graph, "%lf %lf %lf %lf %lf %lf %d %lf\n", st.susceptible / total_population * 100, st.infectious / total_population * 100, st.recovered / total_population * 100, st.recovery_rate, st.transmission_rate, st.immunity_wane, st.duration, st.R_t);
     if (fflush(graph) != 0)
     {
