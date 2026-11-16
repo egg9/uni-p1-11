@@ -47,7 +47,6 @@ def read_stdio():
 
     for str_pipe in sys.stdin:
         inputs = str_pipe.replace("\n", " \n").split(" ")
-        print(str_pipe)
 
         if (len(inputs) != 8):
             changed = True
@@ -78,9 +77,7 @@ def update(frame):
         # creating a new graph or updating the graph
         for i in range( len( graphs ) ):
 
-            print(x)
             graphs[i].set_xdata(x)
-            print(y[i])
             graphs[i].set_ydata(y[i])
 
         plt.xlim(0, x[-1])
