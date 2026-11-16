@@ -4,7 +4,7 @@ static FILE *graph = NULL;
 
 void open_graph()
 {
-    graph = popen("python graph.py 2>nul", "w");
+    graph = popen("python3 graph.py 2>nul", "w");
     if (!graph)
     {
         fprintf(stderr, "Can't open graph");
