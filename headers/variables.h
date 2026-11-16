@@ -13,8 +13,8 @@ typedef struct
     double transmission_rate; // \beta
     double immunity_wane;     // how long does immunity last \xi
     //
-    int duration;         // const how many days a person is sick
-    double R_t;           // effetive repreductive number    =recovery_rate
+    int duration; // const how many days a person is sick
+    double R_t;   // effetive repreductive number    =recovery_rate
 } stats_t;
 
 bool create_stats(const stats_t st); // Use to set all the variables of stats (including const) //primary use is for overriding or creation
