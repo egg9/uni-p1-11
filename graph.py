@@ -57,6 +57,9 @@ def read_stdio():
                     y[i].append( float( input ) )
             x.append(len(x))
 
+    plt.close('all')
+    sys.exit(0)
+
 
 
     sys.stdin.flush()

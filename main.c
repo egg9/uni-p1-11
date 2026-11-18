@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "headers/colors.h"
 #include "headers/variables.h"
 
 #include "headers/calculations.h"
@@ -11,7 +10,6 @@
 
 int main(void)
 {
-    printf(RED "Hello World!" reset);
     create_stats(InputFirstDay()); // Initial stats are inputted, and the result is fed into stats_t stats to be saved
     initialize_snapshot();
     open_graph();
@@ -38,24 +36,7 @@ int main(void)
     }
     close_graph();
 
-    CSV:
-    printf("Name the new CSV file: ");
-    char file_path[28] = "simulations/\0";
-    char illigal_chars[] = "<>:\"/\\|?*";
-    scanf(" %15s", &file_path[12]);
-    file_path[15] = '\0';
-    if (file_path[12] == '.')
-    {
-        printf("File name cannot start with '.'");
-        goto CSV;
-    }
-    if (strpbrk(file_path+12, illigal_chars) != NULL) {
-        printf("File name cannot contain an illegal character [%9s]\n", illigal_chars);
-        goto CSV;
-    }
-
-    printf("%s", file_path);
-    printf("%d", generate_csv(file_path));
+    printf("%d", generate_csv());
 
     return 0;
 }

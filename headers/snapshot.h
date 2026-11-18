@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
+#include <time.h>
 
 #ifndef SNAPSHOT_H
 #define SNAPSHOT_H
@@ -16,8 +18,7 @@ struct snapshot_t
 
 bool initialize_snapshot();
 bool create_snapshot(stats_t st);
-bool generate_csv(char *path);
-const stats_t * const read_snapshots();
+bool generate_csv();
 bool free_snapshots();
 
 #endif

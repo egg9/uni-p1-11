@@ -78,7 +78,7 @@ void zero_stats(const stats_t st)
 }
 
 // DO NOT FREE!!!
-const stats_t *const read_stats()
+const stats_t *read_stats()
 {
     return stats;
 }
