@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 #include "headers/variables.h"
 
@@ -27,6 +28,15 @@ int main(void)
         {
             break;
         }
+
+        char answer;
+        do {
+            printf("Do you want to implement restrictions? [Y/N]\n");
+            scanf(" %c", &answer);
+            while (getchar() != '\n');      // throw away the rest of the line
+            answer = toupper(answer);       // 'y' -> 'Y', 'n' -> 'N'
+        } while (answer != 'Y' && answer != 'N');
+        restrictions(answer);
 
         for (int step = 0; step < steps; step++)
         {

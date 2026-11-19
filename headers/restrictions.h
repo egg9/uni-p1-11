@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-void face_mask(void);
-void restrictions(void);
+void face_mask(bool on);
+void restrictions(char answer);
 
 #endif //PROJECT1_RESTRICTIONS_H

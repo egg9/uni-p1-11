@@ -1,3 +1,4 @@
+#include <ctype.h>
 //
 // Created by Mads Ulrich Pedersen on 18/11/2026.
 //
@@ -11,48 +12,44 @@ live_e state[5] = {inactive, inactive, inactive, inactive, inactive};
 #include "../headers/restrictions.h"
 #include "variables.h"
 
-void face_mask(void)
+void face_mask(bool on)
 {
+    if (on && state[0] == active) {
+        printf("Face masks are already active");
+        return;
+    }
+    if (!on && state[0] == inactive) {
+        printf("Face masks are already inactive");
+        return;
+    }
+
     stats_t st = *read_stats();
 
-    if (state[0] == inactive)
+    if (on)
     {
         st.transmission_rate -= 0.14;
-        update_stats(st);
     }
     else
     {
         st.transmission_rate += 0.14;
-        update_stats(st);
     }
+    update_stats(st);
 }
 
-void restrictions(void)
+void restrictions(char answer)
 {
-    char answer;
-    printf("Do you want to implement restrictions? [Y/N] "); //Should be in main
-    scanf("%s", &answer);
     if (answer == 'Y' || answer == 'y')
     {
         if (state[0] == inactive)
         {
-            printf("Face mask[inactive]? [Y/N] \n");
+            printf("Do you want face masks[%s]? [Y/N] \n", state[0] == active ? "active" : "inactive");
             char FM;
-            scanf("%c", &FM);
-            switch (FM)
-            {
-            case 'Y':
-                face_mask();
-                printf("Facemasks are now active in the population\n");
-                state[0] = state[0] == active ? inactive : active;
-                break; // representerer at face masks er active
-            default:
-                break;
+            scanf(" %c", &FM);
+            if (toupper(FM) == 'Y') {
+                face_mask(true);
+            } else {
+                face_mask(false);
             }
-        }
-        else
-        {
-            printf("Face mask[inactive]\n");
         }
     }
     else
