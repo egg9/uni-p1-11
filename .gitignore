@@ -10,4 +10,4 @@ main.exe
 build/*
 
 #Ignore everything in simulation (files are too large)
-#simulations/*
+simulations/*
