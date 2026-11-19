@@ -1,11 +1,11 @@
 #include "../headers/python_call.h"
 
 #ifdef _WIN32
-#define PLOT_CMD "python graph.py 2>nul"
+#define PLOT_CMD "python graph.py 2>python_std.txt"
 #define popen _popen
 #define pclose _pclose
 #else
-#define PLOT_CMD "python3 graph.py 2>/dev/null"
+#define PLOT_CMD "python3 graph.py 2>python_std.txt"
 #endif
 
 static FILE *graph = NULL;
