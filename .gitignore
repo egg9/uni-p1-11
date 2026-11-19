@@ -10,4 +10,5 @@ main.exe
 build/*
 
 #Ignore everything in simulation (files are too large)
+python_std.txt
 simulations/*

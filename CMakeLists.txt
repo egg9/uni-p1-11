@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(Project1 C)
 set(CMAKE_C_STANDARD 11)
-set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "C:/Users/maxeg/Desktop/Drive/School/Uni/1 sem/P1/uni-p1-11")
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${Project1_SOURCE_DIR})
 
 # 1. Automatically find all .c files inside the sources directory
 file(GLOB SOURCES CONFIGURE_DEPENDS "sources/*.c")
