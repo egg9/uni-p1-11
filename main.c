@@ -7,6 +7,7 @@
 #include "headers/input.h"
 #include "headers/snapshot.h"
 #include "headers/python_call.h"
+#include "headers/restrictions.h"
 
 int main(void)
 {
