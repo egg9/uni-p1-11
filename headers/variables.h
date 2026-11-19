@@ -17,10 +17,21 @@ typedef struct
     double R_t;   // effetive repreductive number    =recovery_rate
 } stats_t;
 
-bool create_stats(const stats_t st); // Use to set all the variables of stats (including const) //primary use is for overriding or creation
-bool check_stats(const stats_t st);  // Used internally to validate if the change is allowed
-bool update_stats(const stats_t st); // Use this to update value in the stats_t struct for validation
-void zero_stats(const stats_t st);   // Use this if you want to zero a value in the struct
-const stats_t * read_stats();         // Returns a const pointer to stats and nothing can be changed
+// Use to set all the variables of stats //primary use is for overriding or creation
+stats_t * create_stats(const stats_t src); 
+
+// Used internally to validate if the change is allowed
+bool check_stats(const stats_t src);  
+
+// Use this to update value in the stats_t struct for validation
+bool update_stats(stats_t * dst, const stats_t src); 
+
+// Use this if you want to zero a value in the struct
+void zero_stats(stats_t * dst, const stats_t src);   
+
+// Returns a const pointer to stats and nothing can be changed
+const stats_t * read_stats(stats_t * src);        
+
+bool free_stats(stats_t * src);
 
 #endif

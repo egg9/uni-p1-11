@@ -16,9 +16,9 @@ struct snapshot_t
     struct snapshot_t *prev;
 };
 
-bool initialize_snapshot();
-bool create_snapshot(stats_t st);
-bool generate_csv();
-bool free_snapshots();
+struct snapshot_t * initialize_snapshot(stats_t st);
+bool create_snapshot(struct snapshot_t * linked_list, stats_t st);
+bool generate_csv(struct snapshot_t * linked_list);
+bool free_snapshots(struct snapshot_t * linked_list);
 
 #endif

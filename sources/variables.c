@@ -10,80 +10,81 @@ enum OVERRIDE
     OVERRIDE = 1
 };
 
-// Struct for runtime variables fx. People: 10'000, Infected: 3'000
-static stats_t *stats = NULL;
-
-bool check_stats(const stats_t st)
+bool check_stats(const stats_t src)
 {
     // clang-format off
-    if (st.susceptible < 0)         return false;
-    if (st.infectious < 0)          return false;
-    if (st.recovered < 0)           return false;
-    if (st.transmission_rate < 0)   return false;
-    if (st.immunity_wane < 0)       return false;
-    if (st.duration < 1)            return false;
-    if (st.R_t < 0)                 return false;
+    if (src.susceptible < 0)         return false;
+    if (src.infectious < 0)          return false;
+    if (src.recovered < 0)           return false;
+    if (src.transmission_rate < 0)   return false;
+    if (src.immunity_wane < 0)       return false;
+    if (src.duration < 1)            return false;
+    if (src.R_t < 0)                 return false;
     // clang-format on
     return true;
 }
 
-bool create_stats(const stats_t st)
+// This function return a pointer and gives the onwership of it away
+stats_t *create_stats(const stats_t src)
 {
-    if (!check_stats(st))
+    if (!check_stats(src))
         return false;
 
-    if (stats != NULL)
-        free(stats);
-
-    stats = calloc(1, sizeof(stats_t));
-    if (!stats)
+    stats_t *ret = calloc(1, sizeof(stats_t));
+    if (!ret)
     {
         fprintf(stderr, "Can't reserve enough space for the stats struct");
         exit(1);
-        return false;
+        return NULL;
     }
 
-    memcpy(stats, &st, sizeof(stats_t));
+    memcpy(ret, &src, sizeof(stats_t));
 
-    return true;
+    return ret;
 }
-// st is a struct send as argument to what update in the current versions of stats
-#include <stdio.h>
 
-bool update_stats(const stats_t st)
+bool update_stats(stats_t *dst, const stats_t src)
 {
-    if (!check_stats(st))
+    if (!check_stats(src))
         return false;
 
     // clang-format off
-    if (st.susceptible != EMPTY)        stats->susceptible = st.susceptible;
-    if (st.infectious != EMPTY)         stats->infectious = st.infectious;
-    if (st.recovered != EMPTY)          stats->recovered = st.recovered;
-    if (st.transmission_rate != EMPTY)  stats->transmission_rate = st.transmission_rate;
-    if (st.immunity_wane != EMPTY)      stats->immunity_wane = st.immunity_wane;
-    if (st.duration != EMPTY)           stats->duration = st.duration;
-    if (st.R_t != EMPTY)                stats->R_t = st.R_t;
+    if (src.susceptible != EMPTY)        dst->susceptible = src.susceptible;
+    if (src.infectious != EMPTY)         dst->infectious = src.infectious;
+    if (src.recovered != EMPTY)          dst->recovered = src.recovered;
+    if (src.transmission_rate != EMPTY)  dst->transmission_rate = src.transmission_rate;
+    if (src.immunity_wane != EMPTY)      dst->immunity_wane = src.immunity_wane;
+    if (src.duration != EMPTY)           dst->duration = src.duration;
+    if (src.R_t != EMPTY)                dst->R_t = src.R_t;
     // clang-format on
 
     return true;
-
 }
 
-void zero_stats(const stats_t st)
+void zero_stats(stats_t *dst, const stats_t src)
 {
     // clang-format off
-    if (st.susceptible == OVERRIDE)        stats->susceptible = 0;
-    if (st.infectious == OVERRIDE)         stats->infectious = 0;
-    if (st.recovered == OVERRIDE)          stats->recovered = 0;
-    if (st.transmission_rate == OVERRIDE)  stats->transmission_rate = 0;
-    if (st.immunity_wane == OVERRIDE)      stats->immunity_wane = 0;
-    if (st.duration == OVERRIDE)           stats->duration = 0;
-    if (st.R_t == OVERRIDE)                stats->R_t = 0;
+    if (src.susceptible == OVERRIDE)        dst->susceptible = 0;
+    if (src.infectious == OVERRIDE)         dst->infectious = 0;
+    if (src.recovered == OVERRIDE)          dst->recovered = 0;
+    if (src.transmission_rate == OVERRIDE)  dst->transmission_rate = 0;
+    if (src.immunity_wane == OVERRIDE)      dst->immunity_wane = 0;
+    if (src.duration == OVERRIDE)           dst->duration = 0;
+    if (src.R_t == OVERRIDE)                dst->R_t = 0;
     // clang-format on
 }
 
 // DO NOT FREE!!!
-const stats_t *read_stats()
+const stats_t *read_stats(stats_t *src)
 {
-    return stats;
+    return src;
+}
+
+bool free_stats(stats_t *src)
+{
+    if (src == NULL)
+        return false;
+
+    free(src);
+    return true;
 }

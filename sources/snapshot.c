@@ -92,65 +92,58 @@ bool free_snapshots()
 }
 */
 
-// This linked list will point backwards, so the lastest (tail) can be shown first and go towards the oldest (head)
-static struct snapshot_t *snapshot_head = NULL;
-static struct snapshot_t *snapshot_tail = NULL;
-static int lenght = 0;
-
-bool initialize_snapshot()
+struct snapshot_t *initialize_snapshot(stats_t st)
 {
-    if (snapshot_head != NULL)
-        free(snapshot_head);
+    if (check_stats(st))
+        return NULL;
 
-    if (snapshot_tail != NULL)
-        free(snapshot_tail);
-
-    snapshot_head = calloc(1, sizeof(struct snapshot_t));
+    struct snapshot_t *snapshot_head = calloc(1, sizeof(struct snapshot_t));
     if (!snapshot_head)
     {
         fprintf(stderr, "Can't reserve enough space for the snapshot struct");
         exit(1);
-        return false;
+        return NULL;
     }
 
-    snapshot_tail = snapshot_head;
-
-    return true;
+    snapshot_head->stats = st;
+    return snapshot_head;
 }
 
-bool create_snapshot(stats_t st)
+bool create_snapshot(struct snapshot_t *linked_list, stats_t st)
 {
-    struct snapshot_t *temp_ptr = snapshot_tail;
+    if (check_stats(st) || linked_list == NULL)
+        return false;
 
-    snapshot_tail = calloc(1, sizeof(struct snapshot_t));
-    if (!snapshot_tail)
+    struct snapshot_t *temp_ptr = calloc(1, sizeof(struct snapshot_t));
+    if (!temp_ptr)
     {
         fprintf(stderr, "Can't reserve enough space for the snapshot struct");
         exit(1);
         return false;
     }
 
-    memcpy(snapshot_tail, &st, sizeof(stats_t));
-    snapshot_tail->prev = temp_ptr;
+    temp_ptr->stats = st;
+    temp_ptr->prev = linked_list;
+    linked_list = temp_ptr;
 
-    lenght++;
     return true;
 }
 
 #define CSV_FILE_PATH_PART_DIR 12
 #define CSV_FILE_PATH_PART_EXTENSION 31
-bool generate_csv()
+bool generate_csv(struct snapshot_t *linked_list)
 {
+    if (linked_list == NULL)
+        return false;
+
     printf("A CSV file will be created with todays date\n");
 
     time_t now = time(NULL);
     struct tm *t = localtime(&now);
 
-    
     char file_path[36] = "simulations/\0";
-    strftime(file_path + CSV_FILE_PATH_PART_DIR, 20, "%Y-%m-%d_%H-%M-%S", t); //Don't work
+    strftime(file_path + CSV_FILE_PATH_PART_DIR, 20, "%Y-%m-%d_%H-%M-%S", t); // Don't work
     strcat(file_path + CSV_FILE_PATH_PART_EXTENSION, ".csv\0");
-    
 
     printf("The file can be found at: %s\n", file_path);
 
@@ -213,10 +206,10 @@ bool generate_csv()
         return false;
     }
 
-    struct snapshot_t *temp_ptr = snapshot_tail;
+    struct snapshot_t *temp_ptr = linked_list;
     fprintf(fptr, "susceptible, infectious, recovered, recovery_rate, transmission_rate, immunity_wane, duration, R_t\n");
 
-    for (int i = 0; temp_ptr->prev != 0; ++i)
+    for (int i = 0; temp_ptr->prev != NULL; ++i)
     {
         temp_ptr = temp_ptr->prev;
 
@@ -237,19 +230,19 @@ bool generate_csv()
     return true;
 }
 
-bool free_snapshots()
+bool free_snapshots(struct snapshot_t *linked_list)
 {
-    struct snapshot_t *temp_ptr = snapshot_tail;
+    if (linked_list == NULL)
+        return false;
 
-    while (snapshot_tail->prev != NULL)
+    struct snapshot_t *temp_ptr = linked_list;
+
+    while (linked_list->prev != NULL)
     {
-        temp_ptr = snapshot_tail->prev;
-        free(snapshot_tail);
-        snapshot_tail = temp_ptr;
+        temp_ptr = linked_list->prev;
+        free(linked_list);
+        linked_list = temp_ptr;
     }
 
-    if (snapshot_head == snapshot_tail)
-        return true;
-    else
-        return false;
+    return true;
 }
