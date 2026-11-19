@@ -22,7 +22,7 @@ stats_t InputFirstDay()
     printf("\nInput the amount of starting infectious: \n");
     scanf(" %lf", &day_one_stats.infectious);
 
-    if (&day_one_stats.infectious < 0) {
+    if (day_one_stats.infectious < 0) {
         printf("infectious cant be less then 0, infectious set to 1");
         day_one_stats.infectious = 1;
     }

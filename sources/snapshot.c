@@ -137,6 +137,8 @@ bool create_snapshot(stats_t st)
     return true;
 }
 
+#define CSV_FILE_PATH_PART_DIR 12
+#define CSV_FILE_PATH_PART_EXTENSION 31
 bool generate_csv()
 {
     printf("A CSV file will be created with todays date\n");
@@ -144,9 +146,10 @@ bool generate_csv()
     time_t now = time(NULL);
     struct tm *t = localtime(&now);
 
-    char file_path[36] = "simulations/87";
-    strftime(file_path + 12, 20, "%Y-%m-%d_%H-%M-%S", t); //Don't work
-    strcat(file_path + 31, ".csv\0");
+    
+    char file_path[36] = "simulations/\0";
+    strftime(file_path + CSV_FILE_PATH_PART_DIR, 20, "%Y-%m-%d_%H-%M-%S", t); //Don't work
+    strcat(file_path + CSV_FILE_PATH_PART_EXTENSION, ".csv\0");
     
 
     printf("The file can be found at: %s\n", file_path);
@@ -238,7 +241,7 @@ bool free_snapshots()
 {
     struct snapshot_t *temp_ptr = snapshot_tail;
 
-    while (snapshot_tail->prev != 0)
+    while (snapshot_tail->prev != NULL)
     {
         temp_ptr = snapshot_tail->prev;
         free(snapshot_tail);
