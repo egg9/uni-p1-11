@@ -31,12 +31,12 @@ int main(void)
 
         char answer;
         do {
-            printf("Do you want to implement restrictions? [Y/N]\n");
+            printf("Do you want to change restrictions? [Y/N]\n");
             scanf(" %c", &answer);
             while (getchar() != '\n');      // throw away the rest of the line
             answer = toupper(answer);       // 'y' -> 'Y', 'n' -> 'N'
         } while (answer != 'Y' && answer != 'N');
-        restrictions(answer);
+        set_restrictions(answer);
 
         for (int step = 0; step < steps; step++)
         {
@@ -44,6 +44,7 @@ int main(void)
             create_snapshot(*read_stats());
             append_day_graph(*read_stats());
         }
+        printf("Transmission rate: %lf", read_stats()->transmission_rate);
     }
     close_graph();
 
