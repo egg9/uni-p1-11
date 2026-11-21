@@ -9,7 +9,6 @@ typedef enum live
     active,
     inactive
 } live_e;
-live_e state[3];
 void set_restrictions(char answer);
 void face_mask(bool on);
 void educational_institution(bool on);

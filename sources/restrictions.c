@@ -5,7 +5,6 @@
 
 #include "../headers/restrictions.h"
 #include "variables.h"
-
 live_e state[3] = {inactive, inactive, inactive};
 
 void set_restrictions(char answer) {
