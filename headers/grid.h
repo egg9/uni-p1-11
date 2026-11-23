@@ -12,6 +12,7 @@
 typedef struct {
 
     stats_t * stats;
+    stats_const_t stats_const;
     int x_size;
     int y_size;
 } grid_t;
@@ -23,7 +24,7 @@ grid_t * create_grid(const int x_size, const int y_size);
 //grid is the refference to a struct that the operation needs to be preformed on
 //src is what the total amount that will be split evenly between all the cells
 //defines the struct (gives it values)
-bool initialize_grid(grid_t * grid, const stats_t src);
+bool initialize_grid(grid_t * grid, const stats_t src, const stats_const_t src_2);
 
 //frees memory of the struct and its children
 bool free_grid(grid_t * grid);

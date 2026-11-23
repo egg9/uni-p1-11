@@ -126,7 +126,7 @@ bool free_stats(stats_t *src)
     return false;
 }
 
-bool free_stats_const(stats_t *src)
+bool free_stats_const(stats_const_t *src)
 {
     if (src)
     {
