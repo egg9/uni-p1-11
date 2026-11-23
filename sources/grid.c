@@ -34,6 +34,7 @@ bool initialize_grid(grid_t *grid, const stats_t src) {
     }
 
     for (int i = 0; i < grid->x_size*grid->y_size; ++i) {
+        //memory copy
         memcpy(grid->stats + i, &src, sizeof(stats_t));
     }
 

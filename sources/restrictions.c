@@ -100,7 +100,7 @@ void educational_institution(stats_t * stIjhvjh, bool on) {
         return;
     }
 
-    stats_t st = read_stats(stIjhvjh);
+    stats_t st = *stIjhvjh;
     if (on) {
         st.transmission_rate *= 0.40; //will reduce transmission rate by 60%
         state[1] = active;
