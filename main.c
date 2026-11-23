@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 #include "headers/variables.h"
 
@@ -38,6 +39,15 @@ int main(void)
             break;
         }
 
+        char answer;
+        do {
+            printf("Do you want to change restrictions? [Y/N]\n");
+            scanf(" %c", &answer);
+            while (getchar() != '\n');      // throw away the rest of the line
+            answer = toupper(answer);       // 'y' -> 'Y', 'n' -> 'N'
+        } while (answer != 'Y' && answer != 'N');
+        set_restrictions(answer);
+
         for (int step = 0; step < steps; step++)
         {
             CalcNextDay(*read_stats());
@@ -45,6 +55,7 @@ int main(void)
             create_snapshot(*read_stats());
             append_day_graph(*read_stats());
         }
+        printf("Transmission rate: %lf", read_stats()->transmission_rate);
     }
     close_graph();
 

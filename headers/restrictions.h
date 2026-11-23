@@ -4,7 +4,16 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-void face_mask(void);
-void restrictions(void);
+typedef enum live
+{
+    active,
+    inactive
+} live_e;
+void set_restrictions(char answer);
+void face_mask(bool on);
+void educational_institution(bool on);
+void public_places(bool on);
+
+
 
 #endif //PROJECT1_RESTRICTIONS_H
