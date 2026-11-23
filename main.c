@@ -61,15 +61,15 @@ int main(void)
         } while (answer != 'Y' && answer != 'N');
         set_restrictions(answer);
 
-        for (long long i = 0; i < town->x_size * town->y_size; ++i)
+        for (long long index = 0; index < town->x_size * town->y_size; ++index)
         {
             for (int step = 0; step < steps; step++)
             {
-                CalcNextDay(town->stats[i]);
+                CalcNextDay(town->stats[index]);
 
                 //append_day_graph(town->stats[i]); //needs more work
             }
-            printf("Transmission rate: %lf", town->stats[i].transmission_rate);
+            printf("Transmission rate: %lf", town->stats[index].transmission_rate);
         }
         create_snapshot(town_snapshots, *town);
     }
