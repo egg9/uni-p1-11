@@ -65,7 +65,7 @@ bool check_grid(const grid_t grid)
     {
         return false;
     }
-    if (!grid.stats_const)
+    if (!check_stats_const( grid.stats_const ))
     {
         return false;
     }

@@ -69,7 +69,7 @@ int main(void)
 
                 //append_day_graph(town->stats[i]); //needs more work
             }
-            printf("Transmission rate: %lf", town->stats[index].transmission_rate);
+            printf("Transmission rate: %lf", town->stats_const.transmission_rate);
         }
         create_snapshot(town_snapshots, *town);
     }
