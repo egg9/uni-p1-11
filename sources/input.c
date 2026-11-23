@@ -22,14 +22,31 @@ stats_t InputFirstDay()
     printf("\nInput the amount of starting infectious: \n");
     scanf(" %lf", &day_one_stats.infectious);
 
-    if (day_one_stats.infectious < 0) {
+    if (day_one_stats.infectious < 0)
+    {
         printf("infectious cant be less then 0, infectious set to 1");
         day_one_stats.infectious = 1;
     }
 
     printf("\nThe basic reproduction number is: %lf\n",
-        day_one_stats.transmission_rate/(1.0/day_one_stats.duration));
+           day_one_stats.transmission_rate / (1.0 / day_one_stats.duration));
 
     return day_one_stats; // Returnér den nye struct
 }
 
+int input_grid_size(bool x_or_y)
+{
+    int inp = 0;
+
+    if (x_or_y)
+    {
+        printf("How wide should the city be");
+    }
+    else
+    {
+        printf("How high should the city be");
+    }
+
+    scanf("%d", &inp);
+    return inp;
+}

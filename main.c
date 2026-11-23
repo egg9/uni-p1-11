@@ -12,14 +12,25 @@
 
 int main(void)
 {
-    stats_t *town_stats; // Initial stats are inputted, and the result is fed into stats_t stats to be saved
-    while (( town_stats = create_stats(InputFirstDay()) ) == NULL)
+    // Initial stats are inputted, and the result is fed into stats_t stats to be saved
+    grid_t *town;
     {
-        printf("illagal input, try again\n");
+        // Initial stats are inputted, and the result is fed into stats_t stats to be saved
+        stats_t *town_stats;
+        while ((town_stats = create_stats(InputFirstDay())) == NULL)
+        {
+            printf("illagal input, try again\n");
+        }
+
+        // The loop to get input
+        while ((town = create_grid(input_grid_size(false), input_grid_size(true))) == NULL)
+        {
+            printf("illagal input, try again\n");
+        }
     }
 
     struct snapshot_t *town_snapshots;
-    while (( town_snapshots = initialize_snapshot(*town_stats) ) == NULL)
+    while ((town_snapshots = initialize_snapshot(*town)) == NULL)
     {
         printf("Something with snapshots went wrong, trying again\n");
     }
@@ -40,26 +51,31 @@ int main(void)
         }
 
         char answer;
-        do {
+        do
+        {
             printf("Do you want to change restrictions? [Y/N]\n");
             scanf(" %c", &answer);
-            while (getchar() != '\n');      // throw away the rest of the line
-            answer = toupper(answer);       // 'y' -> 'Y', 'n' -> 'N'
+            while (getchar() != '\n')
+                ;                     // throw away the rest of the line
+            answer = toupper(answer); // 'y' -> 'Y', 'n' -> 'N'
         } while (answer != 'Y' && answer != 'N');
         set_restrictions(answer);
 
-        for (int step = 0; step < steps; step++)
+        for (long long i = 0; i < town->x_size * town->y_size; ++i)
         {
-            CalcNextDay(*read_stats());
-            
-            create_snapshot(*read_stats());
-            append_day_graph(*read_stats());
+            for (int step = 0; step < steps; step++)
+            {
+                CalcNextDay(town->stats[i]);
+
+                //append_day_graph(town->stats[i]); //needs more work
+            }
+            printf("Transmission rate: %lf", town->stats[i].transmission_rate);
         }
-        printf("Transmission rate: %lf", read_stats()->transmission_rate);
+        create_snapshot(town_snapshots, *town);
     }
     close_graph();
 
-    printf("%d", generate_csv());
+    printf("%d", generate_csv(town_snapshots));
 
     return 0;
 }

@@ -1,3 +1,6 @@
+#ifndef GRID_H
+#define GRID_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,7 +11,7 @@
 
 typedef struct {
 
-    struct stats_t * stats;
+    stats_t * stats;
     int x_size;
     int y_size;
 } grid_t;
@@ -20,7 +23,12 @@ grid_t * create_grid(const int x_size, const int y_size);
 //grid is the refference to a struct that the operation needs to be preformed on
 //src is what the total amount that will be split evenly between all the cells
 //defines the struct (gives it values)
-bool initialize_grid(grid_t * grid, const struct stats_t src);
+bool initialize_grid(grid_t * grid, const stats_t src);
 
 //frees memory of the struct and its children
 bool free_grid(grid_t * grid);
+
+//the same as a null check
+//this function needs to check for 'correctness' of this struct
+bool check_grid(const grid_t grid);
+#endif

@@ -82,9 +82,11 @@ const stats_t *read_stats(stats_t *src)
 
 bool free_stats(stats_t *src)
 {
-    if (src == NULL)
-        return false;
+    if (src)
+    {
+        free(src);
+        return true;
+    }
 
-    free(src);
-    return true;
+    return false;
 }

@@ -14,7 +14,7 @@ grid_t *create_grid(const int x_size, const int y_size)
         return NULL;
     }
 
-    grid->stats = calloc(x_size*y_size, sizeof(struct stats_t));
+    grid->stats = calloc(x_size*y_size, sizeof(stats_t));
     if (!grid->stats) {
         fprintf(stderr, "Can't reserve enough space for the grid struct pool");
         free(grid);
@@ -28,13 +28,13 @@ grid_t *create_grid(const int x_size, const int y_size)
     return grid;
 }
 
-bool initialize_grid(grid_t *grid, const struct stats_t src) {
+bool initialize_grid(grid_t *grid, const stats_t src) {
     if ( check_stats(src) ) {
         return false;
     }
 
     for (int i = 0; i < grid->x_size*grid->y_size; ++i) {
-        grid->stats[i] = src;
+        memcpy(grid->stats + i, &src, sizeof(stats_t));
     }
 
     return true;
@@ -46,4 +46,15 @@ bool free_grid(grid_t *grid) {
         return true;
     }
     return false;
+}
+
+bool check_grid(const grid_t grid) {
+    if (!grid.stats) {
+        return false;
+    }
+    if (grid.x_size < 1 && grid.y_size < 1) {
+        return false;
+    }
+
+    return true;
 }

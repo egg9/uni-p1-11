@@ -92,12 +92,13 @@ bool free_snapshots()
 }
 */
 
-struct snapshot_t *initialize_snapshot(stats_t st)
+snapshot_t *initialize_snapshot(grid_t grid)
 {
-    if (check_stats(st))
+
+    if (check_grid(grid))
         return NULL;
 
-    struct snapshot_t *snapshot_head = calloc(1, sizeof(struct snapshot_t));
+    snapshot_t *snapshot_head = calloc(1, sizeof(snapshot_t));
     if (!snapshot_head)
     {
         fprintf(stderr, "Can't reserve enough space for the snapshot struct");
@@ -105,16 +106,16 @@ struct snapshot_t *initialize_snapshot(stats_t st)
         return NULL;
     }
 
-    snapshot_head->stats = st;
+    snapshot_head->grid = grid;
     return snapshot_head;
 }
 
-bool create_snapshot(struct snapshot_t *linked_list, stats_t st)
+bool create_snapshot(snapshot_t *linked_list, grid_t grid)
 {
-    if (check_stats(st) || linked_list == NULL)
+    if (check_grid(grid) || linked_list == NULL)
         return false;
 
-    struct snapshot_t *temp_ptr = calloc(1, sizeof(struct snapshot_t));
+    snapshot_t *temp_ptr = calloc(1, sizeof(snapshot_t));
     if (!temp_ptr)
     {
         fprintf(stderr, "Can't reserve enough space for the snapshot struct");
@@ -122,7 +123,7 @@ bool create_snapshot(struct snapshot_t *linked_list, stats_t st)
         return false;
     }
 
-    temp_ptr->stats = st;
+    temp_ptr->grid = grid;
     temp_ptr->prev = linked_list;
     linked_list = temp_ptr;
 
@@ -131,7 +132,7 @@ bool create_snapshot(struct snapshot_t *linked_list, stats_t st)
 
 #define CSV_FILE_PATH_PART_DIR 12
 #define CSV_FILE_PATH_PART_EXTENSION 31
-bool generate_csv(struct snapshot_t *linked_list)
+bool generate_csv(snapshot_t *linked_list)
 {
     if (linked_list == NULL)
         return false;
@@ -164,7 +165,7 @@ bool generate_csv(struct snapshot_t *linked_list)
                 if (i == 0)
                 {
                     time_t now = time(NULL);
-                    struct tm *t = localtime(&now);
+                    tm *t = localtime(&now);
 
                     strftime(file_name, sizeof(file_name), "%d-%m-%Y %H:%M:%S\0", t);
                 }
@@ -206,36 +207,41 @@ bool generate_csv(struct snapshot_t *linked_list)
         return false;
     }
 
-    struct snapshot_t *temp_ptr = linked_list;
-    fprintf(fptr, "susceptible, infectious, recovered, recovery_rate, transmission_rate, immunity_wane, duration, R_t\n");
+    snapshot_t *temp_ptr = linked_list;
+    fprintf(fptr, "cell, susceptible, infectious, recovered, recovery_rate, transmission_rate, immunity_wane, duration, R_t\n");
 
     for (int i = 0; temp_ptr->prev != NULL; ++i)
     {
         temp_ptr = temp_ptr->prev;
 
-        fprintf(fptr, "%lf %lf %lf %lf %lf %lf %d %lf\n",
-                temp_ptr->stats.susceptible,
-                temp_ptr->stats.infectious,        // totals
-                temp_ptr->stats.recovered,         // totals
-                                                   //
-                temp_ptr->stats.recovery_rate,     // =1/duration \gamma
-                temp_ptr->stats.transmission_rate, // \beta
-                temp_ptr->stats.immunity_wane,     // how long does immunity last \xi
-                                                   //
-                temp_ptr->stats.duration,          // const how many days a person is sick
-                temp_ptr->stats.R_t);
+        for (long long i = 0; i < temp_ptr->grid.x_size * temp_ptr->grid.y_size; ++i)
+        {
+
+            fprintf(fptr, "%lld %lf %lf %lf %lf %lf %lf %d %lf\n",
+                    i,
+                    temp_ptr->grid.stats[i].duration,
+                    temp_ptr->grid.stats[i].infectious,        // totals
+                    temp_ptr->grid.stats[i].recovered,         // totals
+                                                       //
+                    temp_ptr->grid.stats[i].recovery_rate,     // =1/duration \gamma
+                    temp_ptr->grid.stats[i].transmission_rate, // \beta
+                    temp_ptr->grid.stats[i].immunity_wane,     // how long does immunity last \xi
+                                                       //
+                    temp_ptr->grid.stats[i].duration,          // const how many days a person is sick
+                    temp_ptr->grid.stats[i].R_t);
+        }
     }
     fclose(fptr);
 
     return true;
 }
 
-bool free_snapshots(struct snapshot_t *linked_list)
+bool free_snapshots(snapshot_t *linked_list)
 {
     if (linked_list == NULL)
         return false;
 
-    struct snapshot_t *temp_ptr = linked_list;
+    snapshot_t *temp_ptr = linked_list;
 
     while (linked_list->prev != NULL)
     {
@@ -245,4 +251,11 @@ bool free_snapshots(struct snapshot_t *linked_list)
     }
 
     return true;
+}
+
+bool check_snapshot(snapshot_t linked_list) {
+    if (check_grid(linked_list.grid) && linked_list.prev) {
+        return true;
+    } 
+    return false;
 }

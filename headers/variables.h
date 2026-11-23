@@ -1,6 +1,8 @@
-#include <stdbool.h>
 #ifndef VARIABLES_H
 #define VARIABLES_H
+
+#include <stdbool.h>
+
 
 // Struct for runtime variables fx. People: 10'000, Infected: 3'000
 typedef struct
