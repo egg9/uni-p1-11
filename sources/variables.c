@@ -75,9 +75,9 @@ void zero_stats(stats_t *dst, const stats_t src)
 }
 
 // DO NOT FREE!!!
-const stats_t *read_stats(stats_t *src)
+const stats_t read_stats(stats_t *src)
 {
-    return src;
+    return *src;
 }
 
 bool free_stats(stats_t *src)

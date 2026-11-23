@@ -32,7 +32,7 @@ bool update_stats(stats_t * dst, const stats_t src);
 void zero_stats(stats_t * dst, const stats_t src);   
 
 // Returns a const pointer to stats and nothing can be changed
-const stats_t * read_stats(stats_t * src);        
+const stats_t read_stats(stats_t * src);        
 
 bool free_stats(stats_t * src);
 

@@ -29,7 +29,7 @@ int main(void)
         }
     }
 
-    struct snapshot_t *town_snapshots;
+    snapshot_t *town_snapshots;
     while ((town_snapshots = initialize_snapshot(*town)) == NULL)
     {
         printf("Something with snapshots went wrong, trying again\n");

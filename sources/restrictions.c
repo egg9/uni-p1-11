@@ -90,7 +90,7 @@ void face_mask(bool on) {
     update_stats(st);
 }
 
-void educational_institution(bool on) {
+void educational_institution(stats_t * stIjhvjh, bool on) {
     if (on && state[1] == active) {
         printf("Educational institutions are already active\n");
         return;
@@ -100,7 +100,7 @@ void educational_institution(bool on) {
         return;
     }
 
-    stats_t st = *read_stats();
+    stats_t st = read_stats(stIjhvjh);
     if (on) {
         st.transmission_rate *= 0.40; //will reduce transmission rate by 60%
         state[1] = active;
