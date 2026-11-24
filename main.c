@@ -55,11 +55,10 @@ int main(void)
         {
             printf("Do you want to change restrictions? [Y/N]\n");
             scanf(" %c", &answer);
-            while (getchar() != '\n')
-                ;                     // throw away the rest of the line
-            answer = toupper(answer); // 'y' -> 'Y', 'n' -> 'N'
+            while (getchar() != '\n');   // throw away the rest of the line
+            answer = toupper(answer);    // 'y' -> 'Y', 'n' -> 'N'
         } while (answer != 'Y' && answer != 'N');
-        set_restrictions(answer);
+        set_restrictions(town, answer);
 
         for (long long index = 0; index < town->x_size * town->y_size; ++index)
         {

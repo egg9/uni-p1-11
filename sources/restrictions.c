@@ -4,10 +4,11 @@
 //
 
 #include "../headers/restrictions.h"
-#include "variables.h"
+#include "restrictions.h"
+
 live_e state[3] = {inactive, inactive, inactive};
 
-void set_restrictions(char answer) {
+void set_restrictions(grid_t* town, char answer) {
     if (answer == 'Y' || answer == 'y') {
         printf("Do you want face masks. Will reduce transmission rate by 14 percent [%s]? [Y/N] \n", state[0] == active ? "active" : "inactive");
         char FM;
@@ -19,9 +20,9 @@ void set_restrictions(char answer) {
             }
         } while (toupper(FM) != 'Y' && toupper(FM) != 'N');
         if (toupper(FM) == 'Y') {
-            face_mask(true);
+            face_mask(town, true);
         } else {
-            face_mask(false);
+            face_mask(town, false);
         }
     } else {
         return;
@@ -40,9 +41,9 @@ void set_restrictions(char answer) {
         } while (toupper(EI) != 'Y' && toupper(EI) != 'N');
 
         if (toupper(EI) == 'Y') {
-            educational_institution(true);
+            educational_institution(town, true);
         } else {
-            educational_institution(false);
+            educational_institution(town, false);
         }
     } else {
         return;
@@ -59,9 +60,9 @@ void set_restrictions(char answer) {
             }
         } while (toupper(PB) != 'Y' && toupper(PB) != 'N');
         if (toupper(PB) == 'Y') {
-            face_mask(true);
+            public_places(town, true);
         } else {
-            public_places(false);
+            public_places(town, false);
         }
     } else {
         return;
@@ -69,7 +70,7 @@ void set_restrictions(char answer) {
 }
 
 
-void face_mask(bool on) {
+void face_mask(grid_t* town, bool on) {
     if (on && state[0] == active) {
         printf("Face masks are already active\n");
         return;
@@ -79,18 +80,18 @@ void face_mask(bool on) {
         return;
     }
 
-    stats_t st = *read_stats();
+    stats_t st = *town;
     if (on) {
-        st.transmission_rate *= 0.86; //reduces transmission rate by 14%
+        town->stats_const.transmission_rate *= 0.86; //reduces transmission rate by 14%
         state[0] = active;
     } else {
-        st.transmission_rate /= 0.86; //Gets it back to normal
+        town->stats_const.transmission_rate /= 0.86; //Gets it back to normal
         state[0] = inactive;
     }
-    update_stats(st);
+    update_stats(town, st);
 }
 
-void educational_institution(stats_t * stIjhvjh, bool on) {
+void educational_institution(grid_t* town, bool on) {
     if (on && state[1] == active) {
         printf("Educational institutions are already active\n");
         return;
@@ -100,18 +101,18 @@ void educational_institution(stats_t * stIjhvjh, bool on) {
         return;
     }
 
-    stats_t st = *stIjhvjh;
+    stats_t st = *town;
     if (on) {
-        st.transmission_rate *= 0.40; //will reduce transmission rate by 60%
+        town->stats_const.transmission_rate *= 0.40; //will reduce transmission rate by 60%
         state[1] = active;
     } else {
-        st.transmission_rate /= 0.40;
+        town->stats_const.transmission_rate /= 0.40;
         state[1] = inactive;
     }
-    update_stats(st);
+    update_stats(town, st);
 }
 
-void public_places(bool on) {
+void public_places(grid_t* town, bool on) {
     if (on && state[2] == active) {
         printf("Public places are already active\n");
         return;
@@ -121,13 +122,13 @@ void public_places(bool on) {
         return;
     }
 
-    stats_t st = *read_stats();
+    stats_t st = *town;
     if (on) {
-        st.transmission_rate *= 0.30; //will reduce transmission rate by 30%
+        town->stats_const.transmission_rate *= 0.70; //will reduce transmission rate by 30%
         state[2] = active;
     } else {
-        st.transmission_rate /= 0.30;
+        town->stats_const.transmission_rate /= 0.70;
         state[2] = inactive;
     }
-    update_stats(st);
+    update_stats(town, st);
 }
