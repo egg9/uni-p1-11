@@ -19,7 +19,7 @@ enum menu_option
 };
 
 static void print_menu(void);
-static void skip_days(void);
+static void skip_days(snapshot_t *snapshot, const grid_t *town);
 static int check_int(const char *prompt);
 static void clear_input_line(void);
 
@@ -64,11 +64,11 @@ int main(void)
         switch (choice)
         {
         case MENU_SKIP_DAYS:
-            skip_days();
+            skip_days(town_snapshots, town);
             break;
 
         case MENU_ADD_RESTRICTION:
-            set_restrictions('Y');
+            set_restrictions(town, 'Y');
             break;
 
         case MENU_SELECT_CELL:
@@ -76,7 +76,7 @@ int main(void)
             break;
 
         case MENU_SAVE_CSV:
-            if (!generate_csv())
+            if (!generate_csv(town_snapshots))
             {
                 printf("Could not save the CSV file\n");
             }
@@ -90,34 +90,8 @@ int main(void)
             printf("Unknown option, choose a number from %d to %d\n", MENU_SKIP_DAYS, MENU_EXIT);
             break;
         }
-
-        char answer;
-        do
-        {
-            printf("Do you want to change restrictions? [Y/N]\n");
-            scanf(" %c", &answer);
-            while (getchar() != '\n');   // throw away the rest of the line
-            answer = toupper(answer);    // 'y' -> 'Y', 'n' -> 'N'
-        } while (answer != 'Y' && answer != 'N');
-        set_restrictions(town, answer);
-
-        for (long long index = 0; index < town->x_size * town->y_size; ++index)
-        {
-            for (int step = 0; step < steps; step++)
-            {
-                CalcNextDay(&town->stats[index], town->stats_const);
-
-                //append_day_graph(town->stats[i]); //needs more work
-            }
-            printf("Transmission rate: %lf", town->stats_const.transmission_rate);
-        }
-        create_snapshot(town_snapshots, *town);
+        return 0;
     }
-    close_graph();
-
-    printf("%d", generate_csv(town_snapshots));
-
-    return 0;
 }
 
 static void print_menu(void)
@@ -130,7 +104,7 @@ static void print_menu(void)
     printf("%d. Exit\n", MENU_EXIT);
 }
 
-static void skip_days(void)
+static void skip_days(snapshot_t *snapshot, const grid_t *town)
 {
     int days = check_int("How many days ahead do you want to skip? ");
     if (days < 1)
@@ -141,11 +115,14 @@ static void skip_days(void)
 
     for (int day = 0; day < days; day++)
     {
-        CalcNextDay(*read_stats());
-        create_snapshot(*read_stats());
-        append_day_graph(*read_stats());
+        for (long long index = 0; index < town->x_size * town->y_size; ++index)
+        {
+            CalcNextDay(&town->stats[index], town->stats_const);
+            create_snapshot(snapshot, *town);
+            append_day_graph(town->stats[index], town->stats_const);
+        }
+        printf("Transmission rate: %lf\n", town->stats_const.transmission_rate);
     }
-    printf("Transmission rate: %lf\n", read_stats()->transmission_rate);
 }
 
 static int check_int(const char *prompt)
@@ -172,5 +149,6 @@ static int check_int(const char *prompt)
 static void clear_input_line(void)
 {
     int input;
-    while ((input = getchar()) != '\n' && input != EOF);
+    while ((input = getchar()) != '\n' && input != EOF)
+        ;
 }
