@@ -1,4 +1,8 @@
+#ifndef SNAPSHOT_H
+#define SNAPSHOT_H
+
 #include "variables.h"
+#include "grid.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -7,18 +11,18 @@
 #include <ctype.h>
 #include <time.h>
 
-#ifndef SNAPSHOT_H
-#define SNAPSHOT_H
 
-struct snapshot_t
+
+typedef struct snapshot
 {
-    stats_t stats;
-    struct snapshot_t *prev;
-};
+    grid_t grid;
+    struct snapshot *prev;
+} snapshot_t;
 
-bool initialize_snapshot();
-bool create_snapshot(stats_t st);
-bool generate_csv();
-bool free_snapshots();
+snapshot_t * initialize_snapshot(grid_t grid);
+bool create_snapshot(snapshot_t * linked_list, grid_t grid);
+bool generate_csv(snapshot_t * linked_list);
+bool free_snapshots(snapshot_t * linked_list);
+bool check_snapshot(const snapshot_t linked_list);
 
 #endif

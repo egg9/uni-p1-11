@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "headers/variables.h"
+#include "variables.h"
 
-#include "headers/calculations.h"
-#include "headers/input.h"
-#include "headers/snapshot.h"
-#include "headers/python_call.h"
-#include "headers/restrictions.h"
+#include "calculations.h"
+#include "input.h"
+#include "snapshot.h"
+#include "python_call.h"
+#include "restrictions.h"
 
 enum menu_option
 {
@@ -25,10 +25,31 @@ static void clear_input_line(void);
 
 int main(void)
 {
-    create_stats(InputFirstDay());
-    initialize_snapshot();
+    // Initial stats are inputted, and the result is fed into stats_t stats to be saved
+    grid_t *town;
+    {
+        // Initial stats are inputted, and the result is fed into stats_t stats to be saved
+        stats_t *town_stats;
+        while ((town_stats = create_stats(InputFirstDay())) == NULL)
+        {
+            printf("illagal input, try again\n");
+        }
+
+        // The loop to get input
+        while ((town = create_grid(input_grid_size(false), input_grid_size(true))) == NULL)
+        {
+            printf("illagal input, try again\n");
+        }
+    }
+
+    snapshot_t *town_snapshots;
+    while ((town_snapshots = initialize_snapshot(*town)) == NULL)
+    {
+        printf("Something with snapshots went wrong, trying again\n");
+    }
+
     open_graph();
-    printf("Susceptible: %lf\n", read_stats()->susceptible);
+    // printf("Susceptible: %lf\n", read_stats()->susceptible); // Test case that successfully reads the saved value
 
     bool running = true;
     while (running)
@@ -69,8 +90,32 @@ int main(void)
             printf("Unknown option, choose a number from %d to %d\n", MENU_SKIP_DAYS, MENU_EXIT);
             break;
         }
+
+        char answer;
+        do
+        {
+            printf("Do you want to change restrictions? [Y/N]\n");
+            scanf(" %c", &answer);
+            while (getchar() != '\n');   // throw away the rest of the line
+            answer = toupper(answer);    // 'y' -> 'Y', 'n' -> 'N'
+        } while (answer != 'Y' && answer != 'N');
+        set_restrictions(town, answer);
+
+        for (long long index = 0; index < town->x_size * town->y_size; ++index)
+        {
+            for (int step = 0; step < steps; step++)
+            {
+                CalcNextDay(&town->stats[index], town->stats_const);
+
+                //append_day_graph(town->stats[i]); //needs more work
+            }
+            printf("Transmission rate: %lf", town->stats_const.transmission_rate);
+        }
+        create_snapshot(town_snapshots, *town);
     }
     close_graph();
+
+    printf("%d", generate_csv(town_snapshots));
 
     return 0;
 }

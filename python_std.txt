@@ -1,2 +1,20 @@
 C:\Users\mulri\CLionProjects\uni-p1-11\graph.py:90: UserWarning: frames=None which we can infer the length of, did not pass an explicit *save_count* and passed cache_frame_data=True.  To avoid a possibly unbounded cache, frame data caching has been disabled. To suppress this warning either pass `cache_frame_data=False` or `save_count=MAX_FRAMES`.
   anim = FuncAnimation(fig, update, interval=200, frames = None)
+Traceback (most recent call last):
+  File "C:\Users\maxeg\Desktop\Drive\School\Uni\1 sem\P1\uni-p1-11\graph.py", line 91, in <module>
+    plt.show()
+    ~~~~~~~~^^
+  File "C:\Users\maxeg\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\matplotlib\pyplot.py", line 646, in show
+    return _get_backend_mod().show(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\maxeg\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\matplotlib\backend_bases.py", line 3710, in show
+    cls.mainloop()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\maxeg\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\matplotlib\backends\_backend_tk.py", line 583, in start_main_loop
+    first_manager.window.mainloop()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\maxeg\AppData\Local\Python\pythoncore-3.14-64\Lib\tkinter\__init__.py", line 1613, in mainloop
+    self.tk.mainloop(n)
+    ~~~~~~~~~~~~~~~~^^^
+KeyboardInterrupt
+^C
