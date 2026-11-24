@@ -75,9 +75,9 @@ void CalcNextDay(stats_t *town_stats, stats_const_t st_const)
 
     st.R_t = (st_const.transmission_rate / (1.0 / st_const.duration)) * (st.susceptible / N); /*Update effective
                                                                                 reproductive number*/
-    printf("Susceptible: %d   ", (int)st.susceptible);
+    /*printf("Susceptible: %d   ", (int)st.susceptible);
     printf("Infectious: %d   ", (int)st.infectious); //We cast to int to get rid od the decimal numbers (this only changes copies)
-    printf("Recovered: %d\n", (int)st.recovered);
+    printf("Recovered: %d\n", (int)st.recovered);*/
 
     if (update_stats(town_stats, st) == false)
     { // Gør to ting: opdaterer stats og tjekker for uventede værdier

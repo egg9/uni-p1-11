@@ -28,18 +28,23 @@ int main(void)
     // Initial stats are inputted, and the result is fed into stats_t stats to be saved
     grid_t *town;
     {
-        // Initial stats are inputted, and the result is fed into stats_t stats to be saved
-        stats_t *town_stats;
-        while ((town_stats = create_stats(InputFirstDay())) == NULL)
-        {
-            printf("illagal input, try again\n");
-        }
-
         // The loop to get input
         while ((town = create_grid(input_grid_size(false), input_grid_size(true))) == NULL)
         {
             printf("illagal input, try again\n");
         }
+
+
+        // Initial stats are inputted, and the result is fed into stats_t stats to be saved
+        stats_t town_stats = {0};
+        stats_const_t town_stats_const = {0};
+
+        while (InputFirstDay(&town_stats, &town_stats_const) == false) //TODO: check for error
+        {
+            printf("illagal input, try again\n");
+        }
+
+        initialize_grid(town, town_stats, town_stats_const);
     }
 
     snapshot_t *town_snapshots;
@@ -118,9 +123,9 @@ static void skip_days(snapshot_t *snapshot, const grid_t *town)
         for (long long index = 0; index < town->x_size * town->y_size; ++index)
         {
             CalcNextDay(&town->stats[index], town->stats_const);
-            create_snapshot(snapshot, *town);
             append_day_graph(town->stats[index], town->stats_const);
         }
+        create_snapshot(snapshot, *town);
         printf("Transmission rate: %lf\n", town->stats_const.transmission_rate);
     }
 }

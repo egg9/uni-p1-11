@@ -32,7 +32,12 @@ grid_t *create_grid(const int x_size, const int y_size)
 
 bool initialize_grid(grid_t *grid, const stats_t src, const stats_const_t src2)
 {
-    if (check_stats(src))
+    if (!check_stats(src))
+    {
+        return false;
+    }
+
+    if (!check_stats_const(src2))
     {
         return false;
     }

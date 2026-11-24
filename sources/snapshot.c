@@ -95,9 +95,9 @@ bool free_snapshots()
 snapshot_t *initialize_snapshot(grid_t grid)
 {
 
-    if (check_grid(grid))
+    if (!check_grid(grid))
         return NULL;
-
+        
     snapshot_t *snapshot_head = calloc(1, sizeof(snapshot_t));
     if (!snapshot_head)
     {
@@ -220,13 +220,13 @@ bool generate_csv(snapshot_t *linked_list)
             fprintf(fptr, "%lld %d %lf %lf %lf %lf %lf %d %lf\n",
                     i,
                     temp_ptr->grid.stats_const.duration,
-                    temp_ptr->grid.stats[i].infectious,        // totals
-                    temp_ptr->grid.stats[i].recovered,         // totals
-                                                       //
+                    temp_ptr->grid.stats[i].infectious,           // totals
+                    temp_ptr->grid.stats[i].recovered,            // totals
+                                                                  //
                     temp_ptr->grid.stats_const.recovery_rate,     // =1/duration \gamma
                     temp_ptr->grid.stats_const.transmission_rate, // \beta
                     temp_ptr->grid.stats_const.immunity_wane,     // how long does immunity last \xi
-                                                       //
+                                                                  //
                     temp_ptr->grid.stats_const.duration,          // const how many days a person is sick
                     temp_ptr->grid.stats[i].R_t);
         }
@@ -253,9 +253,11 @@ bool free_snapshots(snapshot_t *linked_list)
     return true;
 }
 
-bool check_snapshot(snapshot_t linked_list) {
-    if (check_grid(linked_list.grid) && linked_list.prev) {
+bool check_snapshot(snapshot_t linked_list)
+{
+    if (check_grid(linked_list.grid) && linked_list.prev)
+    {
         return true;
-    } 
+    }
     return false;
 }
