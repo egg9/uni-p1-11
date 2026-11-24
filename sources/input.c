@@ -5,19 +5,20 @@ stats_t InputFirstDay()
     // Tekst der introducerer programmet (evt. bare have det i main)
     // Lav en ny tom struct
     stats_t day_one_stats = (stats_t){};
+    stats_const_t day_one_stats_const = (stats_const_t){};
 
     // Input nye værdier på felterne
     printf("Input the value for the size of the susceptible group: \n");
     scanf(" %lf", &day_one_stats.susceptible);
 
     printf("\nInput the value of the transmission rate as a decimal number: \n");
-    scanf(" %lf", &day_one_stats.transmission_rate);
+    scanf(" %lf", &day_one_stats_const.transmission_rate);
 
     printf("\nInput the value for the immunity waning time as a whole number \n");
-    scanf(" %lf", &day_one_stats.immunity_wane);
+    scanf(" %lf", &day_one_stats_const.immunity_wane);
 
     printf("\nInput the value for the duration of the disease in whole days: \n");
-    scanf(" %d", &day_one_stats.duration);
+    scanf(" %d", &day_one_stats_const.duration);
 
     printf("\nInput the amount of starting infectious: \n");
     scanf(" %lf", &day_one_stats.infectious);
@@ -29,7 +30,7 @@ stats_t InputFirstDay()
     }
 
     printf("\nThe basic reproduction number is: %lf\n",
-           day_one_stats.transmission_rate / (1.0 / day_one_stats.duration));
+           day_one_stats_const.transmission_rate / (1.0 / day_one_stats_const.duration));
 
     return day_one_stats; // Returnér den nye struct
 }

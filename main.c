@@ -64,7 +64,7 @@ int main(void)
         {
             for (int step = 0; step < steps; step++)
             {
-                CalcNextDay(town->stats[index]);
+                CalcNextDay(&town->stats[index], town->stats_const);
 
                 //append_day_graph(town->stats[i]); //needs more work
             }

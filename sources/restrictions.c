@@ -80,7 +80,6 @@ void face_mask(grid_t* town, bool on) {
         return;
     }
 
-    stats_t st = *town;
     if (on) {
         town->stats_const.transmission_rate *= 0.86; //reduces transmission rate by 14%
         state[0] = active;
@@ -88,7 +87,6 @@ void face_mask(grid_t* town, bool on) {
         town->stats_const.transmission_rate /= 0.86; //Gets it back to normal
         state[0] = inactive;
     }
-    update_stats(town, st);
 }
 
 void educational_institution(grid_t* town, bool on) {
@@ -101,7 +99,6 @@ void educational_institution(grid_t* town, bool on) {
         return;
     }
 
-    stats_t st = *town;
     if (on) {
         town->stats_const.transmission_rate *= 0.40; //will reduce transmission rate by 60%
         state[1] = active;
@@ -109,7 +106,6 @@ void educational_institution(grid_t* town, bool on) {
         town->stats_const.transmission_rate /= 0.40;
         state[1] = inactive;
     }
-    update_stats(town, st);
 }
 
 void public_places(grid_t* town, bool on) {
@@ -122,7 +118,6 @@ void public_places(grid_t* town, bool on) {
         return;
     }
 
-    stats_t st = *town;
     if (on) {
         town->stats_const.transmission_rate *= 0.70; //will reduce transmission rate by 30%
         state[2] = active;
@@ -130,5 +125,4 @@ void public_places(grid_t* town, bool on) {
         town->stats_const.transmission_rate /= 0.70;
         state[2] = inactive;
     }
-    update_stats(town, st);
 }

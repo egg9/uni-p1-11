@@ -35,7 +35,7 @@ bool check_stats_const(const stats_const_t src);
 
 // Use this to update value in the stats_t struct for validation
 bool update_stats(stats_t *dst, const stats_t src);
-bool update_stats_const(stats_const_t *dst, const stats_t src);
+bool update_stats_const(stats_const_t *dst, const stats_const_t src);
 
 // Use this if you want to zero a value in the struct
 void zero_stats(stats_t *dst, const stats_t src);

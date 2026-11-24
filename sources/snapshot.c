@@ -217,17 +217,17 @@ bool generate_csv(snapshot_t *linked_list)
         for (long long i = 0; i < temp_ptr->grid.x_size * temp_ptr->grid.y_size; ++i)
         {
 
-            fprintf(fptr, "%lld %lf %lf %lf %lf %lf %lf %d %lf\n",
+            fprintf(fptr, "%lld %d %lf %lf %lf %lf %lf %d %lf\n",
                     i,
-                    temp_ptr->grid.stats[i].duration,
+                    temp_ptr->grid.stats_const.duration,
                     temp_ptr->grid.stats[i].infectious,        // totals
                     temp_ptr->grid.stats[i].recovered,         // totals
                                                        //
-                    temp_ptr->grid.stats[i].recovery_rate,     // =1/duration \gamma
-                    temp_ptr->grid.stats[i].transmission_rate, // \beta
-                    temp_ptr->grid.stats[i].immunity_wane,     // how long does immunity last \xi
+                    temp_ptr->grid.stats_const.recovery_rate,     // =1/duration \gamma
+                    temp_ptr->grid.stats_const.transmission_rate, // \beta
+                    temp_ptr->grid.stats_const.immunity_wane,     // how long does immunity last \xi
                                                        //
-                    temp_ptr->grid.stats[i].duration,          // const how many days a person is sick
+                    temp_ptr->grid.stats_const.duration,          // const how many days a person is sick
                     temp_ptr->grid.stats[i].R_t);
         }
     }
