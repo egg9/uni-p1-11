@@ -1,5 +1,4 @@
-#include "../headers/calculations.h"
-#include <math.h>
+#include "calculations.h"
 
 stats_t f(stats_t st, stats_const_t st_const)
 {

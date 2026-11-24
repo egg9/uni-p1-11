@@ -1,9 +1,7 @@
-#include <ctype.h>
 //
 // Created by Mads Ulrich Pedersen on 18/11/2026.
 //
 
-#include "../headers/restrictions.h"
 #include "restrictions.h"
 
 live_e state[3] = {inactive, inactive, inactive};

@@ -7,7 +7,6 @@
 #include <stdbool.h> 
 
 #include "variables.h"
-#include "snapshot.h"
 
 typedef struct {
 

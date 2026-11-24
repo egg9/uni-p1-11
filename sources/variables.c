@@ -1,8 +1,5 @@
-#include "../headers/variables.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
+#include "variables.h"
+
 
 enum OVERRIDE
 {

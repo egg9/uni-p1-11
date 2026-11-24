@@ -13,10 +13,10 @@
 
 
 
-typedef struct
+typedef struct snapshot
 {
     grid_t grid;
-    snapshot_t *prev;
+    struct snapshot *prev;
 } snapshot_t;
 
 snapshot_t * initialize_snapshot(grid_t grid);

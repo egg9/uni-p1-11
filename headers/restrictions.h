@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "variables.h"
 #include "grid.h"
+#include <ctype.h>
 
 typedef enum live
 {

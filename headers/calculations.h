@@ -3,7 +3,7 @@
 
 #include <stdio.h> // Fjern i fremtiden fordi main.c alligevel har dette library inkluderet
 #include "variables.h" // Overvej om denne også skal fjernes hvis main alligevel har dette library
-
+#include <math.h>
 
 void CalcNextDay(stats_t *town_stats, stats_const_t st_const);
 

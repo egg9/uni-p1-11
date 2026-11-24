@@ -1,4 +1,4 @@
-#include "../headers/snapshot.h"
+#include "snapshot.h"
 
 //
 // This linked list will point backwards, so the lastest (tail) can be shown first and go towards the oldest (head)

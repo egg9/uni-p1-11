@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../headers/variables.h"
+#include "variables.h"
 
 
 void open_graph();

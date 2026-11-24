@@ -2,13 +2,13 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-#include "headers/variables.h"
+#include "variables.h"
 
-#include "headers/calculations.h"
-#include "headers/input.h"
-#include "headers/snapshot.h"
-#include "headers/python_call.h"
-#include "headers/restrictions.h"
+#include "calculations.h"
+#include "input.h"
+#include "snapshot.h"
+#include "python_call.h"
+#include "restrictions.h"
 
 int main(void)
 {

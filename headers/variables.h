@@ -2,6 +2,9 @@
 #define VARIABLES_H
 
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 // Struct for runtime variables fx. People: 10'000, Infected: 3'000
 // per section of a town/grid
