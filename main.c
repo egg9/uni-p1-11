@@ -34,12 +34,11 @@ int main(void)
             printf("illagal input, try again\n");
         }
 
-
         // Initial stats are inputted, and the result is fed into stats_t stats to be saved
         stats_t town_stats = {0};
         stats_const_t town_stats_const = {0};
 
-        while (InputFirstDay(&town_stats, &town_stats_const) == false) //TODO: check for error
+        while (InputFirstDay(&town_stats, &town_stats_const) == false) // TODO: check for error
         {
             printf("illagal input, try again\n");
         }
@@ -95,8 +94,8 @@ int main(void)
             printf("Unknown option, choose a number from %d to %d\n", MENU_SKIP_DAYS, MENU_EXIT);
             break;
         }
-        return 0;
     }
+    return 0;
 }
 
 static void print_menu(void)
