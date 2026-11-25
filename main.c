@@ -122,21 +122,32 @@ static void skip_days(snapshot_t *snapshot, const grid_t *town)
         for (long long index = 0; index < town->x_size * town->y_size; ++index)
         {
             CalcNextDay(&town->stats[index], town->stats_const);
-            append_day_graph(town->stats[index], town->stats_const);
         }
         create_snapshot(snapshot, *town);
         printf("Transmission rate: %lf\n", town->stats_const.transmission_rate);
 
-
         double total_susceptible = 0;
         double total_infectious = 0;
         double total_recovered = 0;
-        for (long long index = 0; index < town->x_size * town->y_size; ++index)
+        double total_R_t = 0;
+        long long cells = (long long)town->x_size * town->y_size;
+        for (long long index = 0; index < cells; ++index)
         {
             total_susceptible += town->stats[index].susceptible;
             total_infectious += town->stats[index].infectious;
             total_recovered += town->stats[index].recovered;
+            total_R_t += town->stats[index].R_t;
         }
+
+        // one point per day for the whole town
+        stats_t town_total = {
+            .susceptible = total_susceptible,
+            .infectious = total_infectious,
+            .recovered = total_recovered,
+            .R_t = total_R_t / cells // average R_t, not the sum
+        };
+        append_day_graph(town_total, town->stats_const);
+
         printf("susceptible: %d\n", (int)total_susceptible);
         printf("infectious: %d\n", (int)total_infectious);
         printf("recovered: %d\n", (int)total_recovered);
