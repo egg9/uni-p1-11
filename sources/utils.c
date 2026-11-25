@@ -1,6 +1,6 @@
 #include "utils.h"
 
-long long *str2num(const char *buffer, size_t size); //size_t is unsigned int)
+long long *str2num(const char *buffer, size_t size) //size_t is unsigned int)
 {
     if (buffer == NULL)
     {
@@ -11,7 +11,7 @@ long long *str2num(const char *buffer, size_t size); //size_t is unsigned int)
     char * end = NULL;
     const long long val = strtoll(buffer, &end, 10);
     const bool error = errno == ERANGE; //Out of range of long long
-    size_t size = sizeof(short); //size_t is unsigned int
+    //size_t size = sizeof(short); //size_t is unsigned int
     str2num("69", sizeof(int));
 
     if (error || end == buffer)
@@ -25,9 +25,6 @@ long long *str2num(const char *buffer, size_t size); //size_t is unsigned int)
 
     int x = 5;
     char * buffer2[7];
-
-    printf("69 is a nice number: %d", x);
-    snprintf(buffer2, sizeof(buffer2), "69 is a nice number: %d", x);
 
 
 /*    long long *ret = malloc(sizeof(long long));

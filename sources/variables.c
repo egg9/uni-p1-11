@@ -1,11 +1,6 @@
 #include "variables.h"
 
 
-enum OVERRIDE
-{
-    EMPTY = 0,
-    OVERRIDE = 1
-};
 
 bool check_stats(const stats_t src)
 {

@@ -20,31 +20,32 @@ snapshot_t *initialize_snapshot(grid_t grid)
 
 bool create_snapshot(snapshot_t *linked_list, grid_t grid)
 {
-    if (check_grid(grid) || linked_list == NULL)
+    if (!check_grid(grid) ||
+        linked_list == NULL)
         return false;
 
-    snapshot_t *temp_ptr = calloc(1, sizeof(snapshot_t));
-    if (!temp_ptr)
+    snapshot_t *new_snapshot_ptr = calloc(1, sizeof(snapshot_t));
+    if (!new_snapshot_ptr)
     {
         fprintf(stderr, "Can't reserve enough space for the snapshot struct");
         exit(1);
         return false;
     }
 
-    //Assinging values to the new snapshot
-    temp_ptr->grid = grid;
-    temp_ptr->prev = linked_list;
+    // Assinging values to the new snapshot
+    new_snapshot_ptr->grid = grid;
+    new_snapshot_ptr->prev = linked_list;
 
-    //Connecting the new snapshot to the linked list
-    //!important the linked list will be overriten with the newest snapshot that points to the previous one
-    linked_list = temp_ptr;
+    // Connecting the new snapshot to the linked list
+    //! important the linked list will be overriten with the newest snapshot that points to the previous one
+    linked_list = new_snapshot_ptr;
 
     return true;
 }
 
 #define CSV_FILE_PATH_PART_DIR 12
 #define CSV_FILE_PATH_PART_EXTENSION 31
-bool generate_csv(snapshot_t *linked_list)
+bool generate_csv(const snapshot_t *linked_list)
 {
     if (linked_list == NULL)
         return false;
@@ -67,28 +68,28 @@ bool generate_csv(snapshot_t *linked_list)
         return false;
     }
 
-    snapshot_t *temp_ptr = linked_list;
+    snapshot_t *temp_snapshot_ptr = linked_list;
     fprintf(fptr, "cell, susceptible, infectious, recovered, recovery_rate, transmission_rate, immunity_wane, duration, R_t\n");
 
-    for (int i = 0; temp_ptr->prev != NULL; ++i)
+    for (int i = 0; temp_snapshot_ptr->prev != NULL; ++i)
     {
-        temp_ptr = temp_ptr->prev;
+        temp_snapshot_ptr = temp_snapshot_ptr->prev;
 
-        for (long long i = 0; i < temp_ptr->grid.x_size * temp_ptr->grid.y_size; ++i)
+        for (long long i = 0; i < temp_snapshot_ptr->grid.x_size * temp_snapshot_ptr->grid.y_size; ++i)
         {
 
             fprintf(fptr, "%lld %d %lf %lf %lf %lf %lf %d %lf\n",
                     i,
-                    temp_ptr->grid.stats_const.duration,
-                    temp_ptr->grid.stats[i].infectious,           // totals
-                    temp_ptr->grid.stats[i].recovered,            // totals
-                                                                  //
-                    temp_ptr->grid.stats_const.recovery_rate,     // =1/duration \gamma
-                    temp_ptr->grid.stats_const.transmission_rate, // \beta
-                    temp_ptr->grid.stats_const.immunity_wane,     // how long does immunity last \xi
-                                                                  //
-                    temp_ptr->grid.stats_const.duration,          // const how many days a person is sick
-                    temp_ptr->grid.stats[i].R_t);
+                    temp_snapshot_ptr->grid.stats_const.duration,
+                    temp_snapshot_ptr->grid.stats[i].infectious,           // totals
+                    temp_snapshot_ptr->grid.stats[i].recovered,            // totals
+                                                                           //
+                    temp_snapshot_ptr->grid.stats_const.recovery_rate,     // =1/duration \gamma
+                    temp_snapshot_ptr->grid.stats_const.transmission_rate, // \beta
+                    temp_snapshot_ptr->grid.stats_const.immunity_wane,     // how long does immunity last \xi
+                                                                           //
+                    temp_snapshot_ptr->grid.stats_const.duration,          // const how many days a person is sick
+                    temp_snapshot_ptr->grid.stats[i].R_t);
         }
     }
     fclose(fptr);
@@ -101,13 +102,13 @@ bool free_snapshots(snapshot_t *linked_list)
     if (linked_list == NULL)
         return false;
 
-    snapshot_t *temp_ptr = linked_list;
+    snapshot_t *temp_snapshot_ptr = linked_list;
 
     while (linked_list->prev != NULL)
     {
-        temp_ptr = linked_list->prev;
+        temp_snapshot_ptr = linked_list->prev;
         free(linked_list);
-        linked_list = temp_ptr;
+        linked_list = temp_snapshot_ptr;
     }
 
     return true;

@@ -29,9 +29,9 @@ int main(void)
     grid_t *town;
     {
         // The loop to get input
-        while ((town = create_grid(input_grid_size(false), input_grid_size(true))) == NULL)
+        while ( (town = create_grid(input_grid_size(false), input_grid_size(true)) ) == NULL)
         {
-            printf("illagal input, try again\n");
+            printf("illegal input, try again\n");
         }
 
         // Initial stats are inputted, and the result is fed into stats_t stats to be saved
@@ -40,7 +40,7 @@ int main(void)
 
         while (InputFirstDay(&town_stats, &town_stats_const) == false) // TODO: check for error
         {
-            printf("illagal input, try again\n");
+            printf("illegal input, try again\n");
         }
 
         initialize_grid(town, town_stats, town_stats_const);

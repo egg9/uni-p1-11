@@ -21,7 +21,7 @@ typedef struct snapshot_t
 
 snapshot_t * initialize_snapshot(grid_t grid);
 bool create_snapshot(snapshot_t * linked_list, grid_t grid);
-bool generate_csv(snapshot_t * linked_list);
+bool generate_csv(const snapshot_t * linked_list);
 bool free_snapshots(snapshot_t * linked_list);
 bool check_snapshot(const snapshot_t linked_list);
 

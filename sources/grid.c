@@ -30,12 +30,12 @@ grid_t *create_grid(const int x_size, const int y_size)
     return grid;
 }
 
-inline stats_t get_stat_from_grid(grid_t *grid, int x, int y)
+stats_t get_stat_from_grid(grid_t *grid, int x, int y)
 {
     return grid->stats[y * grid->x_size + x];
 }
 
-bool initialize_grid(grid_t *grid, const stats_t src, const stats_const_t src2)
+bool initialize_grid(grid_t *grid, stats_t src, const stats_const_t src2)
 {
     if (!check_stats(src))
     {

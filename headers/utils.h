@@ -14,7 +14,7 @@
  * A pointer to the wanted number.
  * If there was an error the pointer would be null, otherwise remember to free.
  */
-long long * str2int64(const char* buffer, long long int max, long long int min);
+long long *str2num(const char *buffer, size_t size);
 
 double * str2double(const char* buffer, double max, double min);
 

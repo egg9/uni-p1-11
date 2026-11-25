@@ -32,5 +32,5 @@ bool free_grid(grid_t * grid);
 //this function needs to check for 'correctness' of this struct
 bool check_grid(const grid_t grid);
 
-inline stats_t get_stat_from_grid(grid_t *grid, int x, int y);
+stats_t get_stat_from_grid(grid_t *grid, int x, int y);
 #endif
