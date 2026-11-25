@@ -31,8 +31,12 @@ bool create_snapshot(snapshot_t *linked_list, grid_t grid)
         return false;
     }
 
+    //Assinging values to the new snapshot
     temp_ptr->grid = grid;
     temp_ptr->prev = linked_list;
+
+    //Connecting the new snapshot to the linked list
+    //!important the linked list will be overriten with the newest snapshot that points to the previous one
     linked_list = temp_ptr;
 
     return true;
