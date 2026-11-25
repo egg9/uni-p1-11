@@ -30,10 +30,6 @@ graphs = [
     ax.plot([], [], color = 'b', label = "susceptible")[0],
     ax.plot([], [], color = 'g', label = "infectious")[0],
     ax.plot([], [], color = 'r', label = "recovered")[0],
-    ax.plot([], [], color = 'c', label = "recovery_rate")[0],
-    ax.plot([], [], color = 'm', label = "transmission_rate")[0],
-    ax.plot([], [], color = 'y', label = "immunity_wane")[0],
-    ax.plot([], [], color = 'k', label = "duration")[0],
     ax.plot([], [], color = 'orange', label = "R_t")[0]
 ]
 ax.legend(loc="upper right")

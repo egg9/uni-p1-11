@@ -126,6 +126,21 @@ static void skip_days(snapshot_t *snapshot, const grid_t *town)
         }
         create_snapshot(snapshot, *town);
         printf("Transmission rate: %lf\n", town->stats_const.transmission_rate);
+
+
+        double total_susceptible = 0;
+        double total_infectious = 0;
+        double total_recovered = 0;
+        for (long long index = 0; index < town->x_size * town->y_size; ++index)
+        {
+            total_susceptible += town->stats[index].susceptible;
+            total_infectious += town->stats[index].infectious;
+            total_recovered += town->stats[index].recovered;
+        }
+        printf("susceptible: %lf\n", total_susceptible);
+        printf("infectious: %lf\n", total_infectious);
+        printf("recovered: %lf\n", total_recovered);
+        printf("total population: %lf\n", total_susceptible + total_infectious + total_recovered);
     }
 }
 
