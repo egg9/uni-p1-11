@@ -1,6 +1,6 @@
 #include "utils.h"
 
-long long *str2num(const char *buffer, long long int max, long long int min)
+long long *str2num(const char *buffer, size_t size); //size_t is unsigned int)
 {
     if (buffer == NULL)
     {
@@ -10,18 +10,27 @@ long long *str2num(const char *buffer, long long int max, long long int min)
     errno = 0;
     char * end = NULL;
     const long long val = strtoll(buffer, &end, 10);
-    const bool error = errno == ERANGE;
+    const bool error = errno == ERANGE; //Out of range of long long
+    size_t size = sizeof(short); //size_t is unsigned int
+    str2num("69", sizeof(int));
 
     if (error || end == buffer)
     {
         return NULL;
     }
-    else if (val < min || val > max)
+    else if (val < -pow(2, (size*8)-1) || val > pow(2, (size*8)-1)-1)
     {
         return NULL;
     }
 
-    long long *ret = malloc(sizeof(long long));
+    int x = 5;
+    char * buffer2[7];
+
+    printf("69 is a nice number: %d", x);
+    snprintf(buffer2, sizeof(buffer2), "69 is a nice number: %d", x);
+
+
+/*    long long *ret = malloc(sizeof(long long));
     if (!ret)
     {
         fprintf(stderr, "Could not allocate memory in utils in str2num()");
@@ -29,7 +38,7 @@ long long *str2num(const char *buffer, long long int max, long long int min)
     }
 
     *ret = val;
-    return ret;
+    return ret;*/
 }
 
 double * str2double(const char* buffer, double max, double min)

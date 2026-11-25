@@ -6,6 +6,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+enum OVERRIDE
+{
+    EMPTY = 0,
+    OVERRIDE = 1
+};
+
 // Struct for runtime variables fx. People: 10'000, Infected: 3'000
 // per section of a town/grid
 typedef struct

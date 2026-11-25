@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <errno.h>
 #include <limits.h>
+#include <math.h>
 
 /**
  * @param
@@ -14,5 +15,6 @@
  * If there was an error the pointer would be null, otherwise remember to free.
  */
 long long * str2int64(const char* buffer, long long int max, long long int min);
+
 double * str2double(const char* buffer, double max, double min);
 
