@@ -137,10 +137,10 @@ static void skip_days(snapshot_t *snapshot, const grid_t *town)
             total_infectious += town->stats[index].infectious;
             total_recovered += town->stats[index].recovered;
         }
-        printf("susceptible: %lf\n", total_susceptible);
-        printf("infectious: %lf\n", total_infectious);
-        printf("recovered: %lf\n", total_recovered);
-        printf("total population: %lf\n", total_susceptible + total_infectious + total_recovered);
+        printf("susceptible: %d\n", (int)total_susceptible);
+        printf("infectious: %d\n", (int)total_infectious);
+        printf("recovered: %d\n", (int)total_recovered);
+        printf("total population: %d\n", (int)(total_susceptible + total_infectious + total_recovered));
     }
 }
 
