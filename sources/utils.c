@@ -63,3 +63,4 @@ double * str2double(const char* buffer, double max, double min)
     *ret = val;
     return ret;
 }
+

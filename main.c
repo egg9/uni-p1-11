@@ -153,6 +153,5 @@ static int check_int(const char *prompt)
 static void clear_input_line(void)
 {
     int input;
-    while ((input = getchar()) != '\n' && input != EOF)
-        ;
+    while ((input = getchar()) != '\n' && input != EOF);
 }

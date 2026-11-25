@@ -15,3 +15,4 @@
  */
 long long * str2int64(const char* buffer, long long int max, long long int min);
 double * str2double(const char* buffer, double max, double min);
+
