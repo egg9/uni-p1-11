@@ -78,7 +78,7 @@ bool generate_csv(const snapshot_t *linked_list)
         for (long long i = 0; i < temp_snapshot_ptr->grid.x_size * temp_snapshot_ptr->grid.y_size; ++i)
         {
 
-            fprintf(fptr, "%lld %lf %lf %lf %lf %lf %lf %d %lf\n",
+            fprintf(fptr, "%lld, %lf, %lf, %lf, %lf, %lf, %lf, %d, %lf\n",
                     i,
                     temp_snapshot_ptr->grid.stats[i].susceptible,
                     temp_snapshot_ptr->grid.stats[i].infectious,           // totals
