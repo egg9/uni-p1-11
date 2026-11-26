@@ -54,3 +54,22 @@ int input_grid_size(bool x_or_y)
     scanf("%d", &inp);
     return inp;
 }
+
+bool load_config(const char *path, int *x_size, int *y_size, stats_t *stats, stats_const_t *stats_const)
+{
+    FILE *file = fopen(path, "r");
+    if (file == NULL)
+    {
+        return false;
+    }
+
+    // %*s reads the name and throws it away
+    int values_read = fscanf(file, " %*s %d %*s %d %*s %lf %*s %lf %*s %lf %*s %lf %*s %d %*s %lf",
+                             x_size, y_size,
+                             &stats->susceptible, &stats->infectious,
+                             &stats_const->transmission_rate, &stats_const->immunity_wane,
+                             &stats_const->duration, &stats_const->travel_rate);
+    fclose(file);
+
+    return values_read == 8;
+}

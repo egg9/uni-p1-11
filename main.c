@@ -28,19 +28,36 @@ int main(void)
     // Initial stats are inputted, and the result is fed into stats_t stats to be saved
     grid_t *town;
     {
-        // The loop to get input
-        while ( (town = create_grid(input_grid_size(false), input_grid_size(true)) ) == NULL)
-        {
-            printf("illegal input, try again\n");
-        }
-
-        // Initial stats are inputted, and the result is fed into stats_t stats to be saved
+        int x_size = 0, y_size = 0;
         stats_t town_stats = {0};
         stats_const_t town_stats_const = {0};
 
-        while (InputFirstDay(&town_stats, &town_stats_const) == false) // TODO: check for error
+        bool from_config = load_config("config.txt", &x_size, &y_size, &town_stats, &town_stats_const);
+        if (from_config)
         {
-            printf("illegal input, try again\n");
+            printf("Loaded the start values from config.txt\n");
+            town = create_grid(x_size, y_size);
+            if (town == NULL)
+            {
+                printf("config.txt has an illegal grid size, type the values in instead\n");
+                from_config = false;
+            }
+        }
+
+        if (!from_config)
+        {
+            town_stats = (stats_t){0};
+            town_stats_const = (stats_const_t){0};
+
+            while ( (town = create_grid(input_grid_size(false), input_grid_size(true)) ) == NULL)
+            {
+                printf("illegal input, try again\n");
+            }
+
+            while (InputFirstDay(&town_stats, &town_stats_const) == false) // TODO: check for error
+            {
+                printf("illegal input, try again\n");
+            }
         }
 
         initialize_grid(town, town_stats, town_stats_const);
