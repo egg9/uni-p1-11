@@ -31,6 +31,7 @@ typedef struct
     double immunity_wane;     // how long does immunity last \xi
 
     int duration; // const how many days a person is sick
+    double travel_rate;
 } stats_const_t;
 
 // Use to set all the variables of stats 

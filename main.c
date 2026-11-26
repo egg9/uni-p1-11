@@ -137,13 +137,14 @@ static void skip_days(snapshot_t **snapshot, const grid_t *town)
 
             if (index > 0) {
                 double town_population = town->stats[index].susceptible + town->stats[index].infectious + town->stats[index].recovered;
+                double total_population = total_susceptible + total_infectious + total_recovered;
 
                 town->stats[index].infectious += (town->stats_const.transmission_rate * town->stats[index].susceptible *
-                                                 (total_infectious*0.1/(town->x_size*town->y_size)) /
+                                                 (total_population*town->stats_const.travel_rate/(town->x_size*town->y_size)) /
                                                  (town_population));
 
                 town->stats[index].susceptible -= (town->stats_const.transmission_rate * town->stats[index].susceptible *
-                                                 (total_infectious*0.1/(town->x_size*town->y_size)) /
+                                                 (total_population*town->stats_const.travel_rate/(town->x_size*town->y_size)) /
                                                  (town_population));
             }
 

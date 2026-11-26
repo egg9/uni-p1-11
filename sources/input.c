@@ -23,6 +23,9 @@ bool InputFirstDay(stats_t *day_one_stats, stats_const_t *day_one_stats_const)
     printf("\nInput the amount of starting infectious: \n");
     scanf(" %lf", &day_one_stats->infectious);
 
+    printf("\nInput the travel rate: \n");
+    scanf(" %lf", &day_one_stats_const->travel_rate);
+
     if (day_one_stats->infectious < 0)
     {
         printf("infectious cant be less then 0, infectious set to 1");
