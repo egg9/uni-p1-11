@@ -71,27 +71,28 @@ bool generate_csv(const snapshot_t *linked_list)
     }
 
     const snapshot_t *temp_snapshot_ptr = linked_list;
-    fprintf(fptr, "cell, susceptible, infectious, recovered, recovery_rate, transmission_rate, immunity_wane, duration, R_t\n");
+    fprintf(fptr, "day, cell, susceptible, infectious, recovered, recovery_rate, transmission_rate, immunity_wane, duration, R_t\n");
 
     for (int i = 0; temp_snapshot_ptr->prev != NULL; ++i)
     {
         temp_snapshot_ptr = temp_snapshot_ptr->prev;
 
-        for (long long i = 0; i < temp_snapshot_ptr->grid.x_size * temp_snapshot_ptr->grid.y_size; ++i)
+        for (long long j = 0; j < temp_snapshot_ptr->grid.x_size * temp_snapshot_ptr->grid.y_size; ++j)
         {
 
-            fprintf(fptr, "%lld, %lf, %lf, %lf, %lf, %lf, %lf, %d, %lf\n",
-                    i,
-                    temp_snapshot_ptr->grid.stats[i].susceptible,
-                    temp_snapshot_ptr->grid.stats[i].infectious,           // totals
-                    temp_snapshot_ptr->grid.stats[i].recovered,            // totals
-                                                                           //
-                    temp_snapshot_ptr->grid.stats_const.recovery_rate,     // =1/duration \gamma
-                    temp_snapshot_ptr->grid.stats_const.transmission_rate, // \beta
-                    temp_snapshot_ptr->grid.stats_const.immunity_wane,     // how long does immunity last \xi
-                                                                           //
-                    temp_snapshot_ptr->grid.stats_const.duration,          // const how many days a person is sick
-                    temp_snapshot_ptr->grid.stats[i].R_t);
+            fprintf(fptr, "%d, %lld, %lf, %lf, %lf, %lf, %lf, %lf, %d, %lf\n",
+                    i,                                                      //day
+                    j,
+                    temp_snapshot_ptr->grid.stats[j].susceptible,           //
+                    temp_snapshot_ptr->grid.stats[j].infectious,            // totals
+                    temp_snapshot_ptr->grid.stats[j].recovered,             // totals
+                                                                            //
+                    temp_snapshot_ptr->grid.stats_const.recovery_rate,      // =1/duration \gamma
+                    temp_snapshot_ptr->grid.stats_const.transmission_rate,  // \beta
+                    temp_snapshot_ptr->grid.stats_const.immunity_wane,      // how long does immunity last \xi
+                                                                            //
+                    temp_snapshot_ptr->grid.stats_const.duration,           // const how many days a person is sick
+                    temp_snapshot_ptr->grid.stats[j].R_t);
         }
     }
     fclose(fptr);

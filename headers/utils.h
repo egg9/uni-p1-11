@@ -8,13 +8,14 @@
 /**
  * @param
  * buffer, a string buffer containing a number and a terminator
- * max, what is maximum number should be possible to return
- * min, what is minimum number should be possible to return
+ * error, is a out parameter to say if the operation was succesful
  * @return 
- * A pointer to the wanted number.
- * If there was an error the pointer would be null, otherwise remember to free.
+ * A value of the wanted number.
  */
-long long *str2num(const char *buffer, size_t size);
-
-double * str2double(const char* buffer, double max, double min);
+long long str2ll(const char *buffer, bool *error);
+long str2long(const char *buffer, bool *error);
+int str2int(const char *buffer, bool *error);
+short str2short(const char *buffer, bool *error);
+char str2char(const char *buffer, bool *error);
+double str2double(const char* buffer, bool *error);
 
