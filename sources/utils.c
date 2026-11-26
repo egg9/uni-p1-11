@@ -91,7 +91,7 @@ double str2double(const char *buffer, bool *error)
     errno = 0;
     char *end = NULL;
     const double val = strtod(buffer, &end);
-    error = (errno == ERANGE);
+    *error = (errno == ERANGE);
 
     if (error || end == buffer)
     {
