@@ -34,6 +34,8 @@ bool create_snapshot(snapshot_t **linked_list, grid_t grid)
 
     // Assinging values to the new snapshot
     new_snapshot_ptr->grid = grid;
+    new_snapshot_ptr->grid.stats = calloc(1, grid.x_size * grid.y_size * sizeof(stats_t));
+    memcpy(new_snapshot_ptr->grid.stats, grid.stats, grid.x_size * grid.y_size * sizeof(stats_t));
     new_snapshot_ptr->prev = *linked_list;
 
     // Connecting the new snapshot to the linked list
