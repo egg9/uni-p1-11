@@ -119,13 +119,6 @@ static void skip_days(snapshot_t **snapshot, const grid_t *town)
 
     for (int day = 0; day < days; day++)
     {
-        for (long long index = 0; index < town->x_size * town->y_size; ++index)
-        {
-            CalcNextDay(&town->stats[index], town->stats_const);
-        }
-        create_snapshot(snapshot, *town);
-        printf("Transmission rate: %lf\n", town->stats_const.transmission_rate);
-
         double total_susceptible = 0;
         double total_infectious = 0;
         double total_recovered = 0;
@@ -138,6 +131,27 @@ static void skip_days(snapshot_t **snapshot, const grid_t *town)
             total_recovered += town->stats[index].recovered;
             total_R_t += town->stats[index].R_t;
         }
+
+        for (long long index = 0; index < town->x_size * town->y_size; ++index)
+        {
+
+            if (index > 0) {
+                double town_population = town->stats[index].susceptible + town->stats[index].infectious + town->stats[index].recovered;
+
+                town->stats[index].infectious += (town->stats_const.transmission_rate * town->stats[index].susceptible *
+                                                 (total_infectious*0.1/(town->x_size*town->y_size)) /
+                                                 (town_population));
+
+                town->stats[index].susceptible -= (town->stats_const.transmission_rate * town->stats[index].susceptible *
+                                                 (total_infectious*0.1/(town->x_size*town->y_size)) /
+                                                 (town_population));
+            }
+
+            CalcNextDay(&town->stats[index], town->stats_const);
+
+        }
+        create_snapshot(snapshot, *town);
+        printf("Transmission rate: %lf\n", town->stats_const.transmission_rate);
 
         // one point per day for the whole town
         stats_t town_total = {
