@@ -47,13 +47,18 @@ bool initialize_grid(grid_t *grid, stats_t src, const stats_const_t src2)
         return false;
     }
 
-    memcpy(grid->stats, &src, sizeof(stats_t));         //copy stats to the first cell
-    zero_stats(&src, (stats_t){.infectious=OVERRIDE});  //override stats.infectious til 0
+    if (!grid)
+    {
+        return false;
+    }
+
+    memcpy(grid->stats, &src, sizeof(stats_t));          // copy stats to the first cell
+    zero_stats(&src, (stats_t){.infectious = OVERRIDE}); // override stats.infectious til 0
 
     for (int index = 1; index < grid->x_size * grid->y_size; ++index)
     {
         // memory copy
-        //overriden stats gets copied to every cell
+        // overriden stats gets copied to every cell
         memcpy(grid->stats + index, &src, sizeof(stats_t));
     }
 
@@ -89,4 +94,12 @@ bool check_grid(const grid_t grid)
     }
 
     return true;
+}
+
+void copy_grid(grid_t *dst, const grid_t *src) {
+    dst = create_grid(src->x_size, src->y_size);
+    memcpy(dst->stats, src->stats, sizeof(src->stats));
+    dst->stats_const = src->stats_const;
+    
+    return;
 }
