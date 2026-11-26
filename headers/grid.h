@@ -33,4 +33,6 @@ bool free_grid(grid_t * grid);
 bool check_grid(const grid_t grid);
 
 stats_t get_stat_from_grid(grid_t *grid, int x, int y);
+
+void copy_grid(grid_t *dst, const grid_t *src);
 #endif
