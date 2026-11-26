@@ -18,7 +18,7 @@ snapshot_t *initialize_snapshot(grid_t grid)
     return snapshot_head;
 }
 
-bool create_snapshot(snapshot_t *linked_list, grid_t grid)
+bool create_snapshot(snapshot_t **linked_list, grid_t grid)
 {
     if (!check_grid(grid) ||
         linked_list == NULL)
@@ -34,11 +34,11 @@ bool create_snapshot(snapshot_t *linked_list, grid_t grid)
 
     // Assinging values to the new snapshot
     new_snapshot_ptr->grid = grid;
-    new_snapshot_ptr->prev = linked_list;
+    new_snapshot_ptr->prev = *linked_list;
 
     // Connecting the new snapshot to the linked list
     //! important the linked list will be overriten with the newest snapshot that points to the previous one
-    linked_list = new_snapshot_ptr;
+    *linked_list = new_snapshot_ptr;
 
     return true;
 }

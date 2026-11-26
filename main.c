@@ -19,7 +19,7 @@ enum menu_option
 };
 
 static void print_menu(void);
-static void skip_days(snapshot_t *snapshot, const grid_t *town);
+static void skip_days(snapshot_t **snapshot, const grid_t *town);
 static int check_int(const char *prompt);
 static void clear_input_line(void);
 
@@ -68,7 +68,7 @@ int main(void)
         switch (choice)
         {
         case MENU_SKIP_DAYS:
-            skip_days(town_snapshots, town);
+            skip_days(&town_snapshots, town);
             break;
 
         case MENU_ADD_RESTRICTION:
@@ -108,7 +108,7 @@ static void print_menu(void)
     printf("%d. Exit\n", MENU_EXIT);
 }
 
-static void skip_days(snapshot_t *snapshot, const grid_t *town)
+static void skip_days(snapshot_t **snapshot, const grid_t *town)
 {
     int days = check_int("How many days ahead do you want to skip? ");
     if (days < 1)

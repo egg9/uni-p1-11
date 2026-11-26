@@ -50,11 +50,11 @@ bool initialize_grid(grid_t *grid, stats_t src, const stats_const_t src2)
     memcpy(grid->stats, &src, sizeof(stats_t));         //copy stats to the first cell
     zero_stats(&src, (stats_t){.infectious=OVERRIDE});  //override stats.infectious til 0
 
-    for (int i = 1; i < grid->x_size * grid->y_size; ++i)
+    for (int index = 1; index < grid->x_size * grid->y_size; ++index)
     {
         // memory copy
         //overriden stats gets copied to every cell
-        memcpy(grid->stats + i, &src, sizeof(stats_t));
+        memcpy(grid->stats + index, &src, sizeof(stats_t));
     }
 
     grid->stats_const = src2;
