@@ -1,2 +1,4 @@
 C:\Users\maxeg\Desktop\Drive\School\Uni\1 sem\P1\uni-p1-11\graph.py:86: UserWarning: frames=None which we can infer the length of, did not pass an explicit *save_count* and passed cache_frame_data=True.  To avoid a possibly unbounded cache, frame data caching has been disabled. To suppress this warning either pass `cache_frame_data=False` or `save_count=MAX_FRAMES`.
   anim = FuncAnimation(fig, update, interval=200, frames = None)
+C:\Users\maxeg\Desktop\Drive\School\Uni\1 sem\P1\uni-p1-11\graph.py:82: UserWarning: Attempting to set identical low and high xlims makes transformation singular; automatically expanding.
+  plt.xlim(0, x[-1])

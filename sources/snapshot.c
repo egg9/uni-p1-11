@@ -68,7 +68,7 @@ bool generate_csv(const snapshot_t *linked_list)
         return false;
     }
 
-    snapshot_t *temp_snapshot_ptr = linked_list;
+    const snapshot_t *temp_snapshot_ptr = linked_list;
     fprintf(fptr, "cell, susceptible, infectious, recovered, recovery_rate, transmission_rate, immunity_wane, duration, R_t\n");
 
     for (int i = 0; temp_snapshot_ptr->prev != NULL; ++i)
