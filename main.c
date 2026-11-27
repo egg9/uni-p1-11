@@ -1,38 +1,216 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "headers/colors.h"
-#include "headers/variables.h"
+#include "variables.h"
 
-#include "headers/calculations.h"
-#include "headers/input.h"
-#include "headers/snapshot.h"
+#include "calculations.h"
+#include "input.h"
+#include "snapshot.h"
+#include "python_call.h"
+#include "restrictions.h"
+
+enum menu_option
+{
+    MENU_SKIP_DAYS = 1,
+    MENU_ADD_RESTRICTION = 2,
+    MENU_SELECT_CELL = 3,
+    MENU_SAVE_CSV = 4,
+    MENU_EXIT = 5
+};
+
+static void print_menu(void);
+static void skip_days(snapshot_t **snapshot, const grid_t *town);
+static int check_int(const char *prompt);
+static void clear_input_line(void);
 
 int main(void)
 {
-    printf(RED "Hello World!" reset);
-    initialize_snapshot();
-    create_stats(InputFirstDay());                          // Initial stats are inputted, and the result is fed into stats_t stats to be saved
-    printf("Susceptible: %d\n", read_stats()->susceptible); // Test case that successfully reads the saved value
-
-    // Run each day iteratively. Perhaps call the stepfunction here, so the user can input how many days to skip ahead
-    while (true)
+    // Initial stats are inputted, and the result is fed into stats_t stats to be saved
+    grid_t *town;
     {
-        printf("\nHow many days ahead would you skip to?\n");
-        int steps = 0;
-        scanf(" %d", &steps);
+        int x_size = 0, y_size = 0;
+        stats_t town_stats = {0};
+        stats_const_t town_stats_const = {0};
 
-        if (steps < 1)
+        bool from_config = load_config("config.txt", &x_size, &y_size, &town_stats, &town_stats_const);
+        if (from_config)
         {
-            break;
+            printf("Loaded the start values from config.txt\n");
+            town = create_grid(x_size, y_size);
+            if (town == NULL)
+            {
+                printf("config.txt has an illegal grid size, type the values in instead\n");
+                from_config = false;
+            }
         }
 
-        for (int step = 0; step < steps; step++)
+        if (!from_config)
         {
-            CalcNextDay(*read_stats());
-            create_snapshot(read_stats());
+            town_stats = (stats_t){0};
+            town_stats_const = (stats_const_t){0};
+
+            while ( (town = create_grid(input_grid_size(false), input_grid_size(true)) ) == NULL)
+            {
+                printf("illegal input, try again\n");
+            }
+
+            while (InputFirstDay(&town_stats, &town_stats_const) == false) // TODO: check for error
+            {
+                printf("illegal input, try again\n");
+            }
+        }
+
+        initialize_grid(town, town_stats, town_stats_const);
+    }
+
+    snapshot_t *town_snapshots;
+    while ((town_snapshots = initialize_snapshot(*town)) == NULL)
+    {
+        printf("Something with snapshots went wrong, trying again\n");
+    }
+
+    open_graph();
+    // printf("Susceptible: %lf\n", read_stats()->susceptible); // Test case that successfully reads the saved value
+
+    bool running = true;
+    while (running)
+    {
+        print_menu();
+        int choice = check_int("Choose an option: ");
+        if (choice == -1)
+        {
+            choice = MENU_EXIT;
+        }
+
+        switch (choice)
+        {
+        case MENU_SKIP_DAYS:
+            skip_days(&town_snapshots, town);
+            break;
+
+        case MENU_ADD_RESTRICTION:
+            set_restrictions(town, 'Y');
+            break;
+
+        case MENU_SELECT_CELL:
+            printf("Selecting a cell in the grid is not implemented yet\n");
+            break;
+
+        case MENU_SAVE_CSV:
+            if (!generate_csv(town_snapshots))
+            {
+                printf("Could not save the CSV file\n");
+            }
+            break;
+
+        case MENU_EXIT:
+            running = false;
+            break;
+
+        default:
+            printf("Unknown option, choose a number from %d to %d\n", MENU_SKIP_DAYS, MENU_EXIT);
+            break;
         }
     }
     generate_csv("project.csv");
     return 0;
+}
+
+static void print_menu(void)
+{
+    printf("\n----- Menu -----\n");
+    printf("%d. Skip ahead a number of days\n", MENU_SKIP_DAYS);
+    printf("%d. Add a restriction\n", MENU_ADD_RESTRICTION);
+    printf("%d. Select a cell in the grid (x, y) [not implemented]\n", MENU_SELECT_CELL);
+    printf("%d. Save CSV file\n", MENU_SAVE_CSV);
+    printf("%d. Exit\n", MENU_EXIT);
+}
+
+static void skip_days(snapshot_t **snapshot, const grid_t *town)
+{
+    int days = check_int("How many days ahead do you want to skip? ");
+    if (days < 1)
+    {
+        printf("The number of days must be at least 1\n");
+        return;
+    }
+
+    for (int day = 0; day < days; day++)
+    {
+        double total_susceptible = 0;
+        double total_infectious = 0;
+        double total_recovered = 0;
+        double total_R_t = 0;
+        long long cells = (long long)town->x_size * town->y_size;
+        for (long long index = 0; index < cells; ++index)
+        {
+            total_susceptible += town->stats[index].susceptible;
+            total_infectious += town->stats[index].infectious;
+            total_recovered += town->stats[index].recovered;
+            total_R_t += town->stats[index].R_t;
+        }
+
+        for (long long index = 0; index < town->x_size * town->y_size; ++index)
+        {
+
+            if (index > 0) {
+                double town_population = town->stats[index].susceptible + town->stats[index].infectious + town->stats[index].recovered;
+                double total_population = total_susceptible + total_infectious + total_recovered;
+
+                town->stats[index].infectious += (town->stats_const.transmission_rate * town->stats[index].susceptible *
+                                                 (total_population*town->stats_const.travel_rate/(town->x_size*town->y_size)) /
+                                                 (town_population));
+
+                town->stats[index].susceptible -= (town->stats_const.transmission_rate * town->stats[index].susceptible *
+                                                 (total_population*town->stats_const.travel_rate/(town->x_size*town->y_size)) /
+                                                 (town_population));
+            }
+
+            CalcNextDay(&town->stats[index], town->stats_const);
+
+        }
+        create_snapshot(snapshot, *town);
+        printf("Transmission rate: %lf\n", town->stats_const.transmission_rate);
+
+        // one point per day for the whole town
+        stats_t town_total = {
+            .susceptible = total_susceptible,
+            .infectious = total_infectious,
+            .recovered = total_recovered,
+            .R_t = total_R_t / cells // average R_t, not the sum
+        };
+        append_day_graph(town_total, town->stats_const);
+
+        printf("susceptible: %d\n", (int)total_susceptible);
+        printf("infectious: %d\n", (int)total_infectious);
+        printf("recovered: %d\n", (int)total_recovered);
+        printf("total population: %d\n", (int)(total_susceptible + total_infectious + total_recovered));
+    }
+}
+
+static int check_int(const char *prompt)
+{
+    int input;
+    while (true)
+    {
+        printf("%s", prompt);
+        int result = scanf(" %d", &input);
+        if (result == 1)
+        {
+            clear_input_line();
+            return input;
+        }
+        if (result == EOF)
+        {
+            return -1;
+        }
+        printf("Invalid input, please type a whole number\n");
+        clear_input_line();
+    }
+}
+
+static void clear_input_line(void)
+{
+    int input;
+    while ((input = getchar()) != '\n' && input != EOF);
 }

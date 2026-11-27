@@ -1,0 +1,8 @@
+x_size 3
+y_size 3
+susceptible 1000000
+infectious 1
+transmission_rate 0.3
+immunity_wane 365
+duration 7
+travel_rate 0.01
